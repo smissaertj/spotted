@@ -17,6 +17,8 @@
             placeholder="Username"
             class="input input-bordered"
             name="username"
+            @focusout.prevent="checkUsername"
+            v-model="username"
             required
           />
           <ErrorMessage class="text-red-600" name="username" />
@@ -106,6 +108,7 @@ export default {
         password: "required|min:6",
         confirmPassword: "required|confirmed:@password",
       },
+      username: "",
       userLoggedIn: false,
       registerAction: false,
       registerResponse: "",
@@ -121,12 +124,26 @@ export default {
           {
             email: values.email,
             password: values.password,
+            username: values.username,
           }
         );
         this.registerAction = false;
         this.registerResponse = response.data;
       } catch (error) {
         this.registerAction = false;
+        this.registerResponse = error.response.data;
+      }
+    },
+    async checkUsername() {
+      try {
+        const response = await axios.post(
+          import.meta.env.VITE_API_URL + "/signup/check_username",
+          {
+            username: this.username,
+          }
+        );
+        this.registerResponse = "";
+      } catch (error) {
         this.registerResponse = error.response.data;
       }
     },

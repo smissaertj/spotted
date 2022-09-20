@@ -4,7 +4,7 @@ import pyrebase
 from datetime import datetime, timedelta
 
 import requests.exceptions
-from firebase_admin import credentials, auth
+from firebase_admin import credentials, auth, firestore
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 from functools import wraps
@@ -21,7 +21,7 @@ CORS(app)
 cred = credentials.Certificate(firebaseAdmin_config)
 firebase = firebase_admin.initialize_app(cred)
 pb = pyrebase.initialize_app(firebase_config)
-db = pb.database()
+db = firestore.client()
 
 
 def check_token(f):
@@ -51,13 +51,46 @@ def signup():
             data = request.get_json()
             email = data['email']
             passwd = data['password']
-
-            # TODO - Catch Username -> Store in DB users collection
+            username = data['username']
 
             try:
+                # Check if username exists
+                username_docs = db.collection('users').where('username', '==', username).stream()
+                if len(list(username_docs)) > 0:
+                    response = {'status': 'error', 'message': 'Username is taken.'}
+                    return response
                 user = pb.auth().create_user_with_email_and_password(email, passwd)
+                user_id = user['localId']
+                user_data = { 'username': username, 'email': email }
+                db.collection('users').document(user_id).set(user_data)
                 response = {'status': 'success', 'message': 'Check your inbox for the activation link.'}
                 return response, 200
+            except Exception as e:
+                error = json.loads(e.args[1])['error']
+                if error['message'] == 'EMAIL_EXISTS':
+                    response = {'status': 'error', 'message': 'Email already registered.'}
+                else:
+                    response = {'status': 'error', 'message': error['message']}
+                return response, 400
+
+
+@app.route('/signup/check_username', methods=['POST'])
+def check_username():
+    """ Handle Firebase account creation """
+    content_type = request.headers.get('Content-Type')
+
+    if request.method == 'POST':
+        if content_type == 'application/json':
+            data = request.get_json()
+            username = data['username']
+
+            try:
+                username_docs = db.collection('users').where('username', '==', username).stream()
+                if len(list(username_docs)) > 0:
+                    response = {'status': 'error', 'message': 'Username is taken.'}
+                    return response, 400
+                response = {'status': 'success', 'message': 'Username is free.'}
+                return response
             except Exception as e:
                 error = json.loads(e.args[1])['error']
                 if error['message'] == 'EMAIL_EXISTS':
