@@ -25,6 +25,7 @@ library.add(
   faSlideshare,
   faGithub
 );
+
 import "./assets/main.css";
 
 const app = createApp(App).component("font-awesome-icon", FontAwesomeIcon);

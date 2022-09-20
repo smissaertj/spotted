@@ -13,7 +13,7 @@
         </ul>
       </div>
       <div class="navbar-end">
-        <a class="btn">Login</a>
+        <router-link :to="{ name: 'login' }" class="btn">Login</router-link>
       </div>
     </div>
   </header>
