@@ -23,6 +23,9 @@ firebase = firebase_admin.initialize_app(cred)
 pb = pyrebase.initialize_app(firebase_config)
 db = firestore.client()
 
+# Database Helper functions
+from .helpers import username_available
+
 
 def check_token(f):
     """ Verify the validity of the Firebase Auth Token stored in the session cookie """
@@ -54,11 +57,6 @@ def signup():
             username = data['username']
 
             try:
-                # Check if username exists
-                username_docs = db.collection('users').where('username', '==', username).stream()
-                if len(list(username_docs)) > 0:
-                    response = {'status': 'error', 'message': 'Username is taken.'}
-                    return response
                 user = pb.auth().create_user_with_email_and_password(email, passwd)
                 user_id = user['localId']
                 user_data = { 'username': username, 'email': email }
@@ -76,28 +74,15 @@ def signup():
 
 @app.route('/signup/check_username', methods=['POST'])
 def check_username():
-    """ Handle Firebase account creation """
+    """ Check if the username is available """
     content_type = request.headers.get('Content-Type')
 
     if request.method == 'POST':
         if content_type == 'application/json':
             data = request.get_json()
             username = data['username']
-
-            try:
-                username_docs = db.collection('users').where('username', '==', username).stream()
-                if len(list(username_docs)) > 0:
-                    response = {'status': 'error', 'message': 'Username is taken.'}
-                    return response, 400
-                response = {'status': 'success', 'message': 'Username is free.'}
-                return response
-            except Exception as e:
-                error = json.loads(e.args[1])['error']
-                if error['message'] == 'EMAIL_EXISTS':
-                    response = {'status': 'error', 'message': 'Email already registered.'}
-                else:
-                    response = {'status': 'error', 'message': error['message']}
-                return response, 400
+            response = username_available(username)
+            return response
 
 
 @app.route('/login', methods=['POST'])

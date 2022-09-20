@@ -55,7 +55,12 @@
         </div>
 
         <div class="form-control mt-2">
-          <button class="btn btn-primary" type="submit" v-if="!registerAction">
+          <button
+            class="btn btn-primary"
+            type="submit"
+            v-if="!registerAction"
+            :disabled="!usernameAvailable"
+          >
             Register
           </button>
           <div
@@ -109,6 +114,7 @@ export default {
         confirmPassword: "required|confirmed:@password",
       },
       username: "",
+      usernameAvailable: true,
       userLoggedIn: false,
       registerAction: false,
       registerResponse: "",
@@ -142,8 +148,10 @@ export default {
             username: this.username,
           }
         );
+        this.usernameAvailable = true;
         this.registerResponse = "";
       } catch (error) {
+        this.usernameAvailable = false;
         this.registerResponse = error.response.data;
       }
     },
