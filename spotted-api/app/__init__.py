@@ -14,8 +14,7 @@ from settings import firebase_config, firebaseAdmin_config, flask_config
 # Initialize Flask App
 app = Flask(__name__)
 app.config['SECRET_KEY'] = flask_config['SECRET_KEY']
-CORS(app)
-
+CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 # Initialize Firebase_admin and Pyrebase
 cred = credentials.Certificate(firebaseAdmin_config)
@@ -44,7 +43,7 @@ def check_token(f):
     return wrap
 
 
-@app.route('/signup', methods=['POST'])
+@app.route('/api/signup', methods=['POST'])
 def signup():
     """ Handle Firebase account creation """
     content_type = request.headers.get('Content-Type')
@@ -72,7 +71,7 @@ def signup():
                 return response, 400
 
 
-@app.route('/signup/check_username', methods=['POST'])
+@app.route('/api/signup/check_username', methods=['POST'])
 def check_username():
     """ Check if the username is available """
     content_type = request.headers.get('Content-Type')
@@ -85,7 +84,7 @@ def check_username():
             return response
 
 
-@app.route('/login', methods=['POST'])
+@app.route('/api/login', methods=['POST'])
 def login():
     """ Handle the login request with Firebase """
     if request.method == 'POST':
@@ -98,8 +97,8 @@ def login():
             user = pb.auth().sign_in_with_email_and_password(email, password)
             id_token = user['idToken']
             session_cookie = auth.create_session_cookie(id_token, expires_in=expires_in)
-            response = jsonify({'status': 'success', 'message': 'Logged in!'})
             expires = datetime.now() + expires_in
+            response = jsonify({'status': 'success', 'message': 'Logged in!', 'id_token': id_token})
             response.set_cookie('spottedSession', session_cookie, expires=expires, httponly=True, secure=True)
             return response
 
@@ -107,23 +106,23 @@ def login():
             print(e)
             error = json.loads(e.args[1])['error']
             if error['message'] == 'INVALID_PASSWORD' or error['message'] == 'EMAIL_NOT_FOUND':
-                response = { 'status': 'error', 'message': 'Email or Password invalid!'}
+                response = jsonify({ 'status': 'error', 'message': 'Email or Password invalid!'})
             else:
-                response = {'status': 'error', 'message': error['message']}
+                response = jsonify({'status': 'error', 'message': error['message']})
             return response, 401
 
 
-@app.route('/logout', methods=['GET'])
+@app.route('/api/logout', methods=['GET'])
 def logout():
     """ Expire the session cookie, logging out the user """
-    session_cookie = request.cookies.get('fbSession')
+    session_cookie = request.cookies.get('spottedSession')
     if session_cookie:
         response = jsonify({'status': 'success', 'message': 'Logged out!'})
-        response.set_cookie('fbSession', expires=0)
+        response.set_cookie('spottedSession', expires=0)
         return response
 
 
-@app.route('/private')
+@app.route('/api/private')
 @check_token
 def private(user):
     """ Show user details if session cookie auth token is valid """

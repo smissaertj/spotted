@@ -4,12 +4,7 @@
       <vee-form
         class="form-control"
         :validation-schema="registerSchema"
-        @submit="register"
-        v-if="
-          !registerAction &&
-          registerResponse.status !== 'success' &&
-          !userLoggedIn
-        "
+        @submit="createAccount"
       >
         <div class="form-control">
           <vee-field
@@ -17,8 +12,7 @@
             placeholder="Username"
             class="input input-bordered"
             name="username"
-            @focusout.prevent="checkUsername"
-            v-model="username"
+            @focusout.prevent="usernameAvailable($event)"
             required
           />
           <ErrorMessage class="text-red-600" name="username" />
@@ -58,40 +52,21 @@
           <button
             class="btn btn-primary"
             type="submit"
-            v-if="!registerAction"
-            :disabled="!usernameAvailable"
+            :disabled="register_in_submission"
           >
             Register
           </button>
           <div
-            class="alert alert-error shadow-lg mt-2 justify-center font-bold"
-            v-if="registerResponse.status == 'error'"
+            class="alert shadow-lg mt-2 justify-center font-bold"
+            :class="register_alert_variant"
+            v-if="register_show_alert"
           >
             <div>
-              <span>{{ registerResponse.message }}</span>
+              <span>{{ register_alert_msg }}</span>
             </div>
           </div>
         </div>
       </vee-form>
-      <div class="form-control mt-2">
-        <div
-          class="alert alert-success shadow-lg mt-2 justify-center font-bold"
-          v-if="registerResponse.status === 'success' && !registerAction"
-        >
-          <div>
-            <span>{{ registerResponse.message }}</span>
-          </div>
-        </div>
-      </div>
-      <div
-        class="alert alert-warning shadow-lg mt-2 justify-center font-bold"
-        v-if="registerAction"
-      >
-        <div>
-          <font-awesome-icon icon="fa-solid fa-spinner" class="fa-spin" />
-          <span>Creating account...</span>
-        </div>
-      </div>
       <div class="divider">OR</div>
       <a href="/app">
         <button class="btn btn-primary btn-block">Start Exploring</button>
@@ -101,7 +76,8 @@
 </template>
 
 <script>
-import axios from "axios";
+import { mapActions } from "pinia";
+import useUserStore from "@/stores/user";
 
 export default {
   name: "appRegister",
@@ -113,46 +89,47 @@ export default {
         password: "required|min:6",
         confirmPassword: "required|confirmed:@password",
       },
-      username: "",
-      usernameAvailable: true,
-      userLoggedIn: false,
-      registerAction: false,
-      registerResponse: "",
+      register_in_submission: false,
+      register_show_alert: false,
+      register_alert_variant: "alert-success",
+      register_alert_msg: "Creating account...",
     };
   },
   methods: {
-    async register(values) {
+    ...mapActions(useUserStore, {
+      createUser: "register",
+      checkUsername: "checkUsername",
+    }),
+    async createAccount(values) {
+      this.register_in_submission = true;
+      this.register_show_alert = true;
+      this.register_alert_variant = "alert-warning";
+      this.register_alert_msg = "Creating account...";
       try {
-        this.registerAction = true;
-        this.registerResponse = "";
-        const response = await axios.post(
-          import.meta.env.VITE_API_URL + "/signup",
-          {
-            email: values.email,
-            password: values.password,
-            username: values.username,
-          }
-        );
-        this.registerAction = false;
-        this.registerResponse = response.data;
+        await this.createUser(values);
       } catch (error) {
-        this.registerAction = false;
-        this.registerResponse = error.response.data;
+        this.register_in_submission = false;
+        this.register_show_alert = true;
+        this.register_alert_variant = "alert-error";
+        this.register_alert_msg = error.message;
+        return;
       }
+      this.register_show_alert = true;
+      this.register_alert_variant = "alert-success";
+      this.register_alert_msg = "Success! Account created.";
     },
-    async checkUsername() {
-      try {
-        const response = await axios.post(
-          import.meta.env.VITE_API_URL + "/signup/check_username",
-          {
-            username: this.username,
-          }
-        );
-        this.usernameAvailable = true;
-        this.registerResponse = "";
-      } catch (error) {
-        this.usernameAvailable = false;
-        this.registerResponse = error.response.data;
+    async usernameAvailable(event) {
+      if (event.target.value) {
+        const usernameAvailable = await this.checkUsername(event.target.value);
+        if (!usernameAvailable) {
+          this.register_show_alert = true;
+          this.register_alert_variant = "alert-error";
+          this.register_alert_msg = "Username is taken.";
+          this.register_in_submission = true;
+        } else {
+          this.register_show_alert = false;
+          this.register_in_submission = false;
+        }
       }
     },
   },

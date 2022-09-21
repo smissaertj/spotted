@@ -12,7 +12,6 @@
             placeholder="Email"
             class="input input-bordered"
             name="email"
-            v-model="formData.email"
             required
           />
           <ErrorMessage class="text-red-600" name="email" />
@@ -23,7 +22,6 @@
             placeholder="Password"
             class="input input-bordered"
             name="password"
-            v-model="formData.password"
             required
           />
           <ErrorMessage class="text-red-600" name="password" />
@@ -32,37 +30,21 @@
           <button
             class="btn btn-primary"
             type="submit"
-            :disabled="loginAction || !formData.email || !formData.password"
+            :disabled="login_in_submission"
           >
             Login
           </button>
-          <div
-            class="alert alert-error shadow-lg mt-2 justify-center font-bold"
-            v-if="loginResponse.status === 'error'"
-          >
-            <div>
-              <span>{{ loginResponse.message }}</span>
-            </div>
-          </div>
         </div>
       </vee-form>
       <div class="form-control mt-2">
         <div
-          class="alert alert-success shadow-lg mt-2 justify-center font-bold"
-          v-if="loginResponse.status === 'success'"
+          class="alert shadow-lg mt-2 justify-center font-bold"
+          v-if="login_show_alert"
+          :class="login_alert_variant"
         >
           <div>
-            <span>{{ loginResponse.message }}</span>
+            <span>{{ login_alert_msg }}</span>
           </div>
-        </div>
-      </div>
-      <div
-        class="alert alert-warning shadow-lg mt-2 justify-center font-bold"
-        v-if="loginAction"
-      >
-        <div>
-          <font-awesome-icon icon="fa-solid fa-spinner" class="fa-spin" />
-          <span>We're logging you in...</span>
         </div>
       </div>
     </div>
@@ -70,7 +52,8 @@
 </template>
 
 <script>
-import axios from "axios";
+import { mapActions } from "pinia";
+import useUserStore from "@/stores/user";
 export default {
   name: "appLogin",
   data() {
@@ -79,34 +62,30 @@ export default {
         email: "required|email",
         password: "required",
       },
-      userLoggedIn: false,
-      loginAction: false,
-      loginResponse: "",
-      formData: {
-        email: "",
-        password: "",
-      },
+      login_in_submission: false,
+      login_show_alert: false,
+      login_alert_variant: "alert-success",
+      login_alert_msg: "Please wait! You're being logged in.",
     };
   },
   methods: {
+    ...mapActions(useUserStore, ["authenticate"]),
     async login(values) {
+      this.login_in_submission = true;
+      this.login_show_alert = true;
+      this.login_alert_variant = "alert-warning";
+      this.login_alert_msg = "Please wait! We're logging you in.";
       try {
-        console.log(values);
-        this.loginAction = true;
-        this.loginResponse = "";
-        const response = await axios.post(
-          import.meta.env.VITE_API_URL + "/login",
-          {
-            email: values.email,
-            password: values.password,
-          }
-        );
-        this.loginAction = false;
-        this.loginResponse = response.data;
+        await this.authenticate(values);
+        this.login_alert_variant = "alert-success";
+        this.login_alert_msg = "Success! You're now logged in.";
+        //TODO - Refresh after login
+        // window.location.reload();
       } catch (error) {
-        console.log(error);
-        this.loginAction = false;
-        this.loginResponse = error.response.data;
+        this.login_in_submission = false;
+        this.login_alert_variant = "alert-error";
+        this.login_alert_msg = "Invalid login details.";
+        return;
       }
     },
   },
