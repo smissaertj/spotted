@@ -11,7 +11,7 @@ export default defineStore("user", {
   actions: {
     async checkUsername(username) {
       const user = await auth.currentUser;
-      if (user && user.displayName === username) {
+      if (user && user.displayName.toLowerCase() === username.toLowerCase()) {
         return true;
       } else {
         const results = [];

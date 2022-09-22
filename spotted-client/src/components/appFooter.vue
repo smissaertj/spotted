@@ -1,5 +1,5 @@
 <template>
-  <footer class="footer items-center p-4 bg-base-100 text-neutral-content">
+  <footer class="footer items-center p-2 bg-base-100 text-neutral-content">
     <div class="items-center grid-flow-col font-bold">
       <a href="https://joerismissaert.dev" target="_blank">
         <p>Copyright © 2022 - Joeri JM Smissaert</p>

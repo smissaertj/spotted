@@ -114,6 +114,7 @@ export default {
     ...mapActions(useUserStore, ["update", "checkUsername"]),
     async usernameAvailable(event) {
       if (event.target.value) {
+        this.update_show_alert = false;
         const usernameAvailable = await this.checkUsername(event.target.value);
         if (!usernameAvailable) {
           this.update_show_alert = true;

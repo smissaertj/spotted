@@ -50,7 +50,7 @@
           >
         </li>
         <li>
-          <a><font-awesome-icon icon="fa-solid fa-wrench" />Manage Content</a>
+          <a><font-awesome-icon icon="fa-solid fa-wrench" />Manage Comments</a>
         </li>
       </ul>
     </div>
