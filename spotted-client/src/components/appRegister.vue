@@ -107,6 +107,8 @@ export default {
       this.register_alert_msg = "Creating account...";
       try {
         await this.createUser(values);
+        //TODO Set Time out before redirect
+        this.$router.push("/manage");
       } catch (error) {
         this.register_in_submission = false;
         this.register_show_alert = true;

@@ -13,6 +13,11 @@ import {
   faMagnifyingGlassLocation,
   faSplotch,
   faSpinner,
+  faUser,
+  faComments,
+  faCirclePlus,
+  faRectangleList,
+  faWrench,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { faSlideshare, faGithub } from "@fortawesome/free-brands-svg-icons";
@@ -24,8 +29,15 @@ library.add(
   faSplotch,
   faSpinner,
   faSlideshare,
-  faGithub
+  faGithub,
+  faUser,
+  faComments,
+  faCirclePlus,
+  faRectangleList,
+  faWrench
 );
+
+import VueGoogleMaps from "@fawmi/vue-google-maps";
 
 import "./assets/main.css";
 
@@ -34,5 +46,10 @@ const app = createApp(App).component("font-awesome-icon", FontAwesomeIcon);
 app.use(createPinia());
 app.use(router);
 app.use(VeeValidatePlugin);
+app.use(VueGoogleMaps, {
+  load: {
+    key: import.meta.env.VITE_GMAPS_API_KEY,
+  },
+});
 
 app.mount("#app");

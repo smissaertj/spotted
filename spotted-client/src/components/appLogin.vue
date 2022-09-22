@@ -79,8 +79,8 @@ export default {
         await this.authenticate(values);
         this.login_alert_variant = "alert-success";
         this.login_alert_msg = "Success! You're now logged in.";
-        //TODO - Refresh after login
-        // window.location.reload();
+        //TODO - Set a timeout before redirecting the user
+        this.$router.push({ name: "newSubmission" });
       } catch (error) {
         this.login_in_submission = false;
         this.login_alert_variant = "alert-error";
