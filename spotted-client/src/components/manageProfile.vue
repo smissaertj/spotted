@@ -74,7 +74,13 @@
               v-if="update_show_alert"
             >
               <div>
-                <span>{{ update_alert_msg }}</span>
+                <span
+                  ><font-awesome-icon
+                    icon="fa-solid fa-spinner"
+                    class="fa-spin mr-2"
+                    v-if="update_alert_variant == 'alert-warning'"
+                  />{{ update_alert_msg }}</span
+                >
               </div>
             </div>
           </div>
