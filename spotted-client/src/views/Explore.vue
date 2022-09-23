@@ -1,22 +1,24 @@
 <template>
-  <div class="container flex flex-start">
-    <GMapMap
-      :center="center"
-      :zoom="13"
-      map-type-id="terrain"
-      style="width: 100vw; height: 50vh"
-    >
-      <GMapCluster>
-        <GMapMarker
-          :key="index"
-          v-for="(m, index) in markers"
-          :position="m.position"
-          :clickable="true"
-          :draggable="true"
-          @click="center = m.position"
-        />
-      </GMapCluster>
-    </GMapMap>
+  <div class="container h-screen">
+    <div class="container flex flex-start">
+      <GMapMap
+        :center="center"
+        :zoom="13"
+        map-type-id="terrain"
+        style="width: 100vw; height: 50vh"
+      >
+        <GMapCluster>
+          <GMapMarker
+            :key="index"
+            v-for="(m, index) in markers"
+            :position="m.position"
+            :clickable="true"
+            :draggable="true"
+            @click="center = m.position"
+          />
+        </GMapCluster>
+      </GMapMap>
+    </div>
   </div>
 </template>
 
