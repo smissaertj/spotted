@@ -6,10 +6,12 @@
           :to="{ name: 'home' }"
           class="btn btn-ghost normal-case text-xl"
           exact-active-class="no-active"
-          >Spotted!<font-awesome-icon icon="fa-solid fa-splotch" class="m-1"
+          >Spotted!<font-awesome-icon icon="fa-solid fa-binoculars" class="m-1"
         /></router-link>
       </div>
-      <div class="navbar-center hidden lg:flex">sometext</div>
+      <div class="navbar-center hidden lg:flex">
+        <p class="font-bold text-accent">Share Locations of Interest</p>
+      </div>
       <div class="navbar-end">
         <ul class="menu menu-horizontal p-0 m-0">
           <li>

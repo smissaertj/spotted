@@ -16,9 +16,9 @@
             Pin locations, add descriptions, upload pictures.
           </p>
           <div class="card-actions justify-end">
-            <a href="/about">
-              <button class="btn btn-primary">Learn more</button>
-            </a>
+            <router-link class="btn btn-primary" :to="{ name: 'explore' }"
+              >Explore
+            </router-link>
           </div>
         </div>
       </div>
@@ -56,9 +56,9 @@
           />
           <p class="my-2 font-bold">Explore and participate in discussions.</p>
           <div class="card-actions justify-end">
-            <a href="/about">
-              <button class="btn btn-primary">Learn more</button>
-            </a>
+            <router-link class="btn btn-primary" :to="{ name: 'explore' }"
+              >Explore
+            </router-link>
           </div>
         </div>
       </div>
