@@ -74,9 +74,9 @@
         </div>
       </vee-form>
       <div class="divider">OR</div>
-      <a href="/app">
-        <button class="btn btn-primary btn-block">Start Exploring</button>
-      </a>
+      <router-link class="btn btn-primary btn-block" :to="{ name: 'login' }"
+        >Login
+      </router-link>
     </div>
   </div>
 </template>
@@ -113,8 +113,6 @@ export default {
       this.register_alert_msg = "Creating account...";
       try {
         await this.createUser(values);
-        //TODO Set Time out before redirect
-        this.$router.push("/manage");
       } catch (error) {
         this.register_in_submission = false;
         this.register_show_alert = true;

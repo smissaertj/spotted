@@ -2,7 +2,7 @@
   <div class="drawer drawer-mobile border-t border-b">
     <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
     <div class="drawer-content flex flex-col items-center justify-center">
-      <manage-profile v-if="this.$route.name == 'manage'" />
+      <manage-profile v-if="this.$route.name == 'profile'" />
       <div v-else>Page content here</div>
       <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden"
         >Menu</label
@@ -35,7 +35,7 @@
           >
         </li>
         <li>
-          <router-link :to="{ name: 'manage' }" exact-active-class="active"
+          <router-link :to="{ name: 'profile' }" exact-active-class="active"
             ><font-awesome-icon icon="fa-solid fa-user" />Profile</router-link
           >
         </li>

@@ -9,8 +9,9 @@
           >Spotted!<font-awesome-icon icon="fa-solid fa-splotch" class="m-1"
         /></router-link>
       </div>
-      <div class="navbar-center hidden lg:flex">
-        <ul class="menu menu-horizontal p-0">
+      <div class="navbar-center hidden lg:flex">sometext</div>
+      <div class="navbar-end">
+        <ul class="menu menu-horizontal p-0 m-0">
           <li>
             <router-link
               class="link link-accent link-hover"
@@ -20,34 +21,22 @@
           </li>
           <li>
             <router-link
-              class="link link-accent link-hover"
-              :to="{ name: 'manage' }"
+              class="link link-accent link-hover mx-2"
+              :to="{ name: 'newSubmission' }"
               v-if="userStore.userLoggedIn"
               >Manage</router-link
             >
           </li>
+          <li>
+            <button
+              @click.prevent="signOut"
+              class="btn"
+              v-if="userStore.userLoggedIn"
+            >
+              Sign Out
+            </button>
+          </li>
         </ul>
-      </div>
-      <div class="navbar-end">
-        <router-link
-          :to="{ name: 'login' }"
-          class="btn"
-          v-if="this.$route.name != 'login' && !userStore.userLoggedIn"
-          >Login</router-link
-        >
-        <router-link
-          :to="{ name: 'home' }"
-          class="btn"
-          v-else-if="this.$route.name != 'home' && !userStore.userLoggedIn"
-          >Register</router-link
-        >
-        <button
-          @click.prevent="signOut"
-          class="btn"
-          v-else-if="userStore.userLoggedIn"
-        >
-          Sign Out
-        </button>
       </div>
     </div>
   </header>

@@ -38,18 +38,22 @@ library.add(
 );
 
 import VueGoogleMaps from "@fawmi/vue-google-maps";
-
 import "./assets/main.css";
 
-const app = createApp(App).component("font-awesome-icon", FontAwesomeIcon);
+let app;
 
-app.use(createPinia());
-app.use(router);
-app.use(VeeValidatePlugin);
-app.use(VueGoogleMaps, {
-  load: {
-    key: import.meta.env.VITE_GMAPS_API_KEY,
-  },
+auth.onAuthStateChanged(() => {
+  if (!app) {
+    app = createApp(App);
+    app.use(createPinia());
+    app.use(router);
+    app.use(VeeValidatePlugin);
+    app.use(VueGoogleMaps, {
+      load: {
+        key: import.meta.env.VITE_GMAPS_API_KEY,
+      },
+    });
+    app.component("font-awesome-icon", FontAwesomeIcon);
+    app.mount("#app");
+  }
 });
-
-app.mount("#app");
