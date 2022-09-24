@@ -8,6 +8,7 @@ export default defineStore("user", {
     displayName: "",
     email: "",
     photoUrl: "",
+    idToken: "",
   }),
   actions: {
     async checkUsername(username) {
@@ -53,10 +54,10 @@ export default defineStore("user", {
 
       const user = auth.currentUser;
       if (user != null) {
+        this.idToken = await user.getIdToken(false);
         this.displayName = user.displayName;
         this.email = user.email;
         this.photoUrl = user.photoUrl;
-        console.log(user.uid);
         const docRef = await usersCollection
           .doc(user.uid)
           .get()
