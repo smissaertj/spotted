@@ -3,6 +3,7 @@
     <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
     <div class="drawer-content flex flex-col items-center justify-center">
       <manage-profile v-if="this.$route.name == 'profile'" />
+      <manage-users v-else-if="this.$route.name == 'manageUsers'" />
       <div v-else>Page content here</div>
       <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden"
         >Menu</label
@@ -40,16 +41,19 @@
           >
         </li>
 
-        <li>
-          <a><font-awesome-icon icon="fa-solid fa-wrench" />Manage Users</a>
+        <li v-if="userStore.userIsAdmin">
+          <router-link :to="{ name: 'manageUsers' }" exact-active-class="active"
+            ><font-awesome-icon icon="fa-solid fa-wrench" />Manage
+            Users</router-link
+          >
         </li>
-        <li>
+        <li v-if="userStore.userIsAdmin">
           <a
             ><font-awesome-icon icon="fa-solid fa-wrench" />Manage
             Submissions</a
           >
         </li>
-        <li>
+        <li v-if="userStore.userIsAdmin">
           <a><font-awesome-icon icon="fa-solid fa-wrench" />Manage Comments</a>
         </li>
       </ul>
@@ -58,11 +62,18 @@
 </template>
 
 <script>
+import { mapStores } from "pinia";
+import useUserStore from "@/stores/user.js";
 import manageProfile from "@/components/manageProfile.vue";
+import manageUsers from "@/components/manageUsers.vue";
 export default {
   name: "appProfile",
   components: {
     manageProfile,
+    manageUsers,
+  },
+  computed: {
+    ...mapStores(useUserStore),
   },
 };
 </script>

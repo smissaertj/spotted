@@ -4,6 +4,7 @@ import { auth, usersCollection } from "@/includes/firebase";
 export default defineStore("user", {
   state: () => ({
     userLoggedIn: false,
+    userIsAdmin: false,
     displayName: "",
     email: "",
     photoUrl: "",
@@ -35,6 +36,8 @@ export default defineStore("user", {
       await usersCollection.doc(userCred.user.uid).set({
         username: values.username.toLowerCase(),
         email: values.email,
+        isAdmin: false,
+        isActive: true,
       });
       await userCred.user.updateProfile({
         displayName: values.username.toLowerCase(),
@@ -53,6 +56,15 @@ export default defineStore("user", {
         this.displayName = user.displayName;
         this.email = user.email;
         this.photoUrl = user.photoUrl;
+        console.log(user.uid);
+        const docRef = await usersCollection
+          .doc(user.uid)
+          .get()
+          .then((doc) => {
+            if (doc.exists) {
+              this.userIsAdmin = doc.data().isAdmin;
+            }
+          });
       }
     },
     async signOut() {

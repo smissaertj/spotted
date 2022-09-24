@@ -92,7 +92,7 @@ export default {
       } catch (error) {
         this.login_in_submission = false;
         this.login_alert_variant = "alert-error";
-        this.login_alert_msg = "Invalid login details.";
+        this.login_alert_msg = error.message;
         return;
       }
     },

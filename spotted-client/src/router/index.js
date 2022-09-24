@@ -15,7 +15,7 @@ const routes = [
   { name: "explore", path: "/explore", component: Explore },
   {
     name: "profile",
-    path: "/manage/profile",
+    path: "/profile",
     component: Manage,
     meta: {
       requiresAuth: true,
@@ -23,7 +23,7 @@ const routes = [
   },
   {
     name: "newSubmission",
-    path: "/manage/newsubmission",
+    path: "/newsubmission",
     alias: "/manage",
     component: Manage,
     meta: {
@@ -32,7 +32,7 @@ const routes = [
   },
   {
     name: "mySubmissions",
-    path: "/manage/mysubmissions",
+    path: "/mysubmissions",
     component: Manage,
     meta: {
       requiresAuth: true,
@@ -40,10 +40,19 @@ const routes = [
   },
   {
     name: "myComments",
-    path: "/manage/mycomments",
+    path: "/mycomments",
     component: Manage,
     meta: {
       requiresAuth: true,
+    },
+  },
+  {
+    name: "manageUsers",
+    path: "/users",
+    component: Manage,
+    meta: {
+      requiresAuth: true,
+      requiresAdmin: true,
     },
   },
   { name: "NotFound", path: "/:pathMatch(.*)*", component: NotFound },
