@@ -1,153 +1,204 @@
 <template>
-  <div class="flex flex-col w-full px-64">
-    <div
-      class="card flex flex-shrink-0 shadow-2xl bg-base-100 glass rounded-box place-items-center"
-    >
-      <div class="card-body">
-        <vee-form
-          class="form-control"
-          :validation-schema="updateSchema"
-          @submit="updateProfile"
-        >
-          <div class="form-control">
-            <label class="input-group">
-              <span class="label-text">Username</span>
-
-              <vee-field
-                type="text"
-                placeholder=""
-                class="input input-bordered w-full"
-                name="username"
-                v-model="userStore.displayName"
-                @focusout.prevent="usernameAvailable($event)"
-                required
-              />
+  <div class="overflow-x-auto w-full">
+    <table class="table w-full">
+      <!-- head -->
+      <thead>
+        <tr>
+          <th>
+            <label>
+              <input type="checkbox" class="checkbox" />
             </label>
-            <ErrorMessage class="text-red-600" name="username" />
-          </div>
-          <div class="form-control mt-2">
-            <label class="input-group">
-              <span class="label-text">Email</span>
-              <vee-field
-                type="email"
-                placeholder=""
-                class="input input-bordered w-full"
-                name="email"
-                v-model="userStore.email"
-                required
-              />
+          </th>
+          <th>Name</th>
+          <th>Job</th>
+          <th>Favorite Color</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- row 1 -->
+        <tr>
+          <th>
+            <label>
+              <input type="checkbox" class="checkbox" />
             </label>
-            <ErrorMessage class="text-red-600" name="email" />
-          </div>
-          <div class="form-control mt-2">
-            <vee-field
-              type="password"
-              placeholder="New Password"
-              class="input input-bordered w-full"
-              name="password"
-              required
-            />
-            <ErrorMessage class="text-red-600" name="password" />
-          </div>
-          <div class="form-control mt-2">
-            <vee-field
-              type="password"
-              placeholder="Confirm New Password"
-              class="input input-bordered"
-              name="confirmPassword"
-              required
-            />
-            <ErrorMessage class="text-red-600" name="confirmPassword" />
-          </div>
-
-          <div class="form-control mt-2">
-            <button
-              class="btn btn-primary"
-              type="submit"
-              :disabled="update_in_submission"
-            >
-              Update
-            </button>
-            <div
-              class="alert shadow-lg mt-2 justify-center font-bold"
-              :class="update_alert_variant"
-              v-if="update_show_alert"
-            >
+          </th>
+          <td>
+            <div class="flex items-center space-x-3">
+              <div class="avatar">
+                <div class="mask mask-squircle w-12 h-12">
+                  <img
+                    src="https://via.placeholder.com/150"
+                    alt="Profile Picture"
+                  />
+                </div>
+              </div>
               <div>
-                <span
-                  ><font-awesome-icon
-                    icon="fa-solid fa-spinner"
-                    class="fa-spin mr-2"
-                    v-if="update_alert_variant == 'alert-warning'"
-                  />{{ update_alert_msg }}</span
-                >
+                <div class="font-bold">Hart Hagerty</div>
+                <div class="text-sm opacity-50">United States</div>
               </div>
             </div>
-          </div>
-        </vee-form>
-      </div>
-    </div>
+          </td>
+          <td>
+            Zemlak, Daniel and Leannon
+            <br />
+            <span class="badge badge-ghost badge-sm"
+              >Desktop Support Technician</span
+            >
+          </td>
+          <td>Purple</td>
+          <th>
+            <button class="btn btn-ghost btn-xs">details</button>
+          </th>
+        </tr>
+        <!-- row 2 -->
+        <tr>
+          <th>
+            <label>
+              <input type="checkbox" class="checkbox" />
+            </label>
+          </th>
+          <td>
+            <div class="flex items-center space-x-3">
+              <div class="avatar">
+                <div class="mask mask-squircle w-12 h-12">
+                  <img
+                    src="https://via.placeholder.com/150"
+                    alt="Profile Picture"
+                  />
+                </div>
+              </div>
+              <div>
+                <div class="font-bold">Brice Swyre</div>
+                <div class="text-sm opacity-50">China</div>
+              </div>
+            </div>
+          </td>
+          <td>
+            Carroll Group
+            <br />
+            <span class="badge badge-ghost badge-sm">Tax Accountant</span>
+          </td>
+          <td>Red</td>
+          <th>
+            <button class="btn btn-ghost btn-xs">details</button>
+          </th>
+        </tr>
+        <!-- row 3 -->
+        <tr>
+          <th>
+            <label>
+              <input type="checkbox" class="checkbox" />
+            </label>
+          </th>
+          <td>
+            <div class="flex items-center space-x-3">
+              <div class="avatar">
+                <div class="mask mask-squircle w-12 h-12">
+                  <img
+                    src="https://via.placeholder.com/150"
+                    alt="Profile Picture"
+                  />
+                </div>
+              </div>
+              <div>
+                <div class="font-bold">Marjy Ferencz</div>
+                <div class="text-sm opacity-50">Russia</div>
+              </div>
+            </div>
+          </td>
+          <td>
+            Rowe-Schoen
+            <br />
+            <span class="badge badge-ghost badge-sm">Office Assistant I</span>
+          </td>
+          <td>Crimson</td>
+          <th>
+            <button class="btn btn-ghost btn-xs">details</button>
+          </th>
+        </tr>
+        <!-- row 4 -->
+        <tr>
+          <th>
+            <label>
+              <input type="checkbox" class="checkbox" />
+            </label>
+          </th>
+          <td>
+            <div class="flex items-center space-x-3">
+              <div class="avatar">
+                <div class="mask mask-squircle w-12 h-12">
+                  <img
+                    src="https://via.placeholder.com/150"
+                    alt="Profile Picture"
+                  />
+                </div>
+              </div>
+              <div>
+                <div class="font-bold">Yancy Tear</div>
+                <div class="text-sm opacity-50">Brazil</div>
+              </div>
+            </div>
+          </td>
+          <td>
+            Wyman-Ledner
+            <br />
+            <span class="badge badge-ghost badge-sm"
+              >Community Outreach Specialist</span
+            >
+          </td>
+          <td>Indigo</td>
+          <th>
+            <button class="btn btn-ghost btn-xs">details</button>
+          </th>
+        </tr>
+      </tbody>
+      <!-- foot -->
+      <tfoot>
+        <tr>
+          <th></th>
+          <th>Name</th>
+          <th>Job</th>
+          <th>Favorite Color</th>
+          <th></th>
+        </tr>
+      </tfoot>
+    </table>
   </div>
 </template>
 
 <script>
-import { mapStores, mapActions } from "pinia";
+import { mapStores } from "pinia";
 import useUserStore from "@/stores/user";
+import axios from "axios";
+const authService = axios.create({
+  baseURL: import.meta.env.VITE_API_URL,
+});
 export default {
-  name: "manageProfile",
+  name: "manageUsers",
   data() {
     return {
-      updateSchema: {
-        password: "min:6",
-        confirmPassword: "confirmed:@password",
-      },
-      update_in_submission: false,
-      update_show_alert: false,
-      update_alert_variant: "alert-success",
-      update_alert_msg: "Updating profile...",
+      users: "",
     };
   },
   computed: {
     ...mapStores(useUserStore),
   },
   methods: {
-    ...mapActions(useUserStore, ["update", "checkUsername"]),
-    async usernameAvailable(event) {
-      if (event.target.value) {
-        this.update_show_alert = false;
-        const usernameAvailable = await this.checkUsername(event.target.value);
-        if (!usernameAvailable) {
-          this.update_show_alert = true;
-          this.update_alert_variant = "alert-error";
-          this.update_alert_msg = "Username is taken.";
-          this.update_in_submission = true;
-        } else {
-          this.update_show_alert = false;
-          this.update_in_submission = false;
-        }
-      }
-    },
-    async updateProfile(values) {
-      this.update_in_submission = true;
-      this.update_show_alert = true;
-      this.update_alert_variant = "alert-warning";
-      this.update_alert_msg = "Updating profile";
+    async getAllUsers() {
       try {
-        await this.update(values);
-        this.update_in_submission = false;
-        this.update_show_alert = true;
-        this.update_alert_variant = "alert-success";
-        this.update_alert_msg = "Profile updated.";
-        // TODO - Set Timeout then update_show_alert = false
+        const result = await authService.post("/users/list", {
+          id_token: this.userStore.idToken,
+        });
+        this.users = result.data;
+        console.log(this.users);
       } catch (error) {
         console.log(error);
-        this.update_in_submission = false;
-        this.update_show_alert = true;
-        this.update_alert_variant = "alert-error";
-        this.update_alert_msg = error;
-        return;
       }
     },
+  },
+  beforeMount() {
+    this.getAllUsers();
   },
 };
 </script>
