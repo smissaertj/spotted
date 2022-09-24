@@ -51,7 +51,7 @@ def list_users():
 
 
 @app.route('/api/users/disable', methods=['POST'])
-# @check_token
+@check_token
 def disable_account():
     """ Disable a Firebase User Account """
     if request.method == 'POST':
