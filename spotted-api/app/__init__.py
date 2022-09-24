@@ -27,7 +27,7 @@ from .helpers import username_available
 
 
 def check_token(f):
-    """ Verify the validity of the Firebase JWT token """
+    """ Ensure we're dealing with a valid authenticated user """
     @wraps(f)
     def wrap(*args,**kwargs):
         data = request.get_json()
@@ -45,37 +45,48 @@ def check_token(f):
     return wrap
 
 
+def check_admin_token(f):
+    """ Ensure the request is coming from an admin user """
+    @wraps(f)
+    def wrap(*args,**kwargs):
+        data = request.get_json()
+        id_token = data['id_token']
+        if not id_token:
+            return jsonify({'status': 'error', 'message': 'No token provided'}), 403
+
+        try:
+            decoded_token = auth.verify_id_token(id_token)
+            uid = decoded_token['uid']
+            doc_ref = db.collection('users').document(uid)
+            doc = doc_ref.get()
+            user_data = doc.to_dict()
+            if not user_data.get('isAdmin'):
+                raise Exception
+
+        except Exception as e:
+            return jsonify({'status': 'error', 'message': 'Invalid token'}), 403
+
+        return f()
+    return wrap
+
+
 @app.route('/api/users/list', methods=['POST'])
 def list_users():
     pass
 
 
 @app.route('/api/users/disable', methods=['POST'])
-@check_token
+@check_admin_token
 def disable_account():
     """ Disable a Firebase User Account """
     if request.method == 'POST':
         data = request.get_json()
-        requester_uid = data.get('admin_uid') # uid of the user making the request
         disable_uid = data['uid'] # uid of the user to be disabled
 
         try:
-            # Check if the request is coming from an admin user
-            doc_ref = db.collection('users').document(requester_uid)
-            doc = doc_ref.get()
-            if doc.exists:
-                requester_user_data = doc.to_dict()
-
-                if requester_user_data.get('isAdmin'):
-                    auth.update_user(disable_uid, disabled=True)
-                    response = jsonify({'status': 'success', 'message': 'user disabled'})
-                    return response, 200
-                else:
-                    response = jsonify({'status': 'error', 'message': 'Forbidden'})
-                    return response, 403
-
-            else:
-                raise auth.UserNotFoundError('requester_uid does not exist')
+            auth.update_user(disable_uid, disabled=True)
+            response = jsonify({'status': 'success', 'message': 'user disabled'})
+            return response, 200
 
         except exceptions.FirebaseError as e:
             response = {'status': 'error', 'message': repr(e)}
