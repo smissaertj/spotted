@@ -71,8 +71,16 @@ def check_admin_token(f):
 
 
 @app.route('/api/users/list', methods=['POST'])
+@check_admin_token
 def list_users():
-    pass
+    users_list = []
+    # Iterate through all users. This will still retrieve users in batches,
+    # buffering no more than 1000 users in memory at a time.
+    for user in auth.list_users().iterate_all():
+        user = {'uid': user.uid, 'email': user.email, 'displayName': user.display_name, 'isDisabled': user.disabled}
+        users_list.append(user)
+
+    return users_list
 
 
 @app.route('/api/users/disable', methods=['POST'])
