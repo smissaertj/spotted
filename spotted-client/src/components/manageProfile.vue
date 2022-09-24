@@ -138,7 +138,9 @@ export default {
         this.update_show_alert = true;
         this.update_alert_variant = "alert-success";
         this.update_alert_msg = "Profile updated.";
-        // TODO - Set Timeout then update_show_alert = false
+        setTimeout(() => {
+          this.update_show_alert = false;
+        }, 3000);
       } catch (error) {
         console.log(error);
         this.update_in_submission = false;
