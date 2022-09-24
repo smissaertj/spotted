@@ -66,7 +66,7 @@ def check_admin_token(f):
         except Exception as e:
             return jsonify({'status': 'error', 'message': 'Invalid token'}), 403
 
-        return f()
+        return f(*args,**kwargs)
     return wrap
 
 
@@ -83,17 +83,22 @@ def list_users():
     return users_list
 
 
-@app.route('/api/users/disable', methods=['POST'])
+@app.route('/api/user/state/<action>', methods=['POST'])
 @check_admin_token
-def disable_account():
-    """ Disable a Firebase User Account """
+def change_account_state(action):
+    """ Disable/enable a Firebase User Account """
     if request.method == 'POST':
         data = request.get_json()
-        disable_uid = data['uid'] # uid of the user to be disabled
+        uid = data['uid'] # uid of the user to be enabled/disabled
 
         try:
-            auth.update_user(disable_uid, disabled=True)
-            response = jsonify({'status': 'success', 'message': 'user disabled'})
+            if action == 'disable':
+                auth.update_user(uid, disabled=True)
+                response = jsonify({'status': 'success', 'message': 'user disabled'})
+            elif action == 'enable':
+                auth.update_user(uid, disabled=False)
+                response = jsonify({'status': 'success', 'message': 'user enabled'})
+
             return response, 200
 
         except exceptions.FirebaseError as e:
