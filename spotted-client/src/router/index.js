@@ -64,7 +64,7 @@ router.beforeEach((to, from, next) => {
   if (store.userLoggedIn) {
     next();
   } else {
-    next({ name: "home" });
+    next({ name: "NotFound" });
   }
 });
 

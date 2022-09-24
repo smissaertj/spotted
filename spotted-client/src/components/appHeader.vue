@@ -18,6 +18,7 @@
             <router-link
               class="link link-accent link-hover"
               :to="{ name: 'explore' }"
+              v-if="this.$route.name != 'home' && this.$route.name != 'login'"
               >Explore</router-link
             >
           </li>
