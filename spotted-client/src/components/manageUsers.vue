@@ -33,11 +33,21 @@
           </td>
           <td>{{ user.isDisabled ? "Disabled" : "Active" }}</td>
           <td>
-            <button class="btn btn-ghost btn-xs" :disabled="!user.selected">
+            <button
+              class="btn btn-ghost btn-xs hover:btn-error"
+              :disabled="!user.selected"
+            >
               Delete
             </button>
-            <button class="btn btn-ghost btn-xs" :disabled="!user.selected">
-              Deactivate
+            <button
+              class="btn btn-ghost btn-xs mx-2"
+              :disabled="!user.selected"
+              :class="{
+                'hover:btn-success': user.isDisabled,
+                'hover:btn-error': !user.isDisabled,
+              }"
+            >
+              {{ user.isDisabled ? "Activate" : "Deactivate" }}
             </button>
           </td>
         </tr>
