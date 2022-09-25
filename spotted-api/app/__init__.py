@@ -98,7 +98,9 @@ def change_account_state(action):
             elif action == 'enable':
                 auth.update_user(uid, disabled=False)
                 response = jsonify({'status': 'success', 'message': 'user enabled'})
-
+            elif action == 'delete':
+                auth.delete_user(uid);
+                response = jsonify({'status': 'success', 'message': 'user deleted'})
             return response, 200
 
         except exceptions.FirebaseError as e:

@@ -56,6 +56,7 @@
             <button
               class="btn btn-ghost btn-xs hover:btn-error"
               :disabled="!user.selected"
+              @click.prevent="changeAccountState(user.uid, 'delete')"
             >
               Delete
             </button>
