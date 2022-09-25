@@ -54,6 +54,12 @@
                 'hover:btn-success': user.isDisabled,
                 'hover:btn-warning': !user.isDisabled,
               }"
+              @click.prevent="
+                changeAccountState(
+                  user.uid,
+                  user.isDisabled ? 'enable' : 'disable'
+                )
+              "
             >
               {{ user.isDisabled ? "Activate" : "Deactivate" }}
             </button>
@@ -104,6 +110,17 @@ export default {
         console.log(error);
         this.users_show_alert = true;
         this.users_alert_msg = error.data;
+      }
+    },
+    async changeAccountState(uid, action) {
+      try {
+        const result = await authService.post("/user/state/" + action, {
+          uid: uid,
+          id_token: this.userStore.idToken,
+        });
+        this.getAllUsers();
+      } catch (error) {
+        console.log(error);
       }
     },
   },
