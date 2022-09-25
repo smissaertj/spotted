@@ -50,7 +50,7 @@ def check_admin_token(f):
     @wraps(f)
     def wrap(*args,**kwargs):
         data = request.get_json()
-        id_token = data['id_token']
+        id_token = data.get('id_token')
         if not id_token:
             return jsonify({'status': 'error', 'message': 'No token provided'}), 403
 
