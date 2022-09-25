@@ -2,6 +2,14 @@
   <div class="m-auto" v-if="!this.users">
     <font-awesome-icon icon="fa-solid fa-spinner" class="fa-spin" size="3x" />
   </div>
+  <div
+    class="alert alert-error shadow-lg m-auto w-1/2"
+    v-else-if="users_show_alert"
+  >
+    <div>
+      <span>{{ users_alert_msg }}</span>
+    </div>
+  </div>
   <div class="overflow-x-auto w-full" v-else>
     <table class="table w-100 m-auto">
       <!-- head -->
@@ -44,7 +52,7 @@
               :disabled="!user.selected"
               :class="{
                 'hover:btn-success': user.isDisabled,
-                'hover:btn-error': !user.isDisabled,
+                'hover:btn-warning': !user.isDisabled,
               }"
             >
               {{ user.isDisabled ? "Activate" : "Deactivate" }}
@@ -77,6 +85,9 @@ export default {
   data() {
     return {
       users: "",
+      users_show_alert: false,
+      users_alert_variant: "alert-error",
+      users_alert_msg: "Something went wrong.",
     };
   },
   computed: {
@@ -89,9 +100,10 @@ export default {
           id_token: this.userStore.idToken,
         });
         this.users = result.data;
-        console.log(this.users);
       } catch (error) {
         console.log(error);
+        this.users_show_alert = true;
+        this.users_alert_msg = error.data;
       }
     },
   },
