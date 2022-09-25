@@ -1,14 +1,10 @@
 import firebase_admin
-import json
-import pyrebase
-from datetime import datetime, timedelta
 
-import requests.exceptions
 from firebase_admin import credentials, auth, firestore, exceptions
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 from functools import wraps
-from settings import firebase_config, firebaseAdmin_config, flask_config
+from settings import firebaseAdmin_config, flask_config
 
 
 # Initialize Flask App
@@ -19,11 +15,7 @@ CORS(app, resources={r"/api/*": {"origins": "*"}})
 # Initialize Firebase_admin and Pyrebase
 cred = credentials.Certificate(firebaseAdmin_config)
 firebase = firebase_admin.initialize_app(cred)
-pb = pyrebase.initialize_app(firebase_config)
 db = firestore.client()
-
-# Database Helper functions
-from .helpers import username_available
 
 
 def check_token(f):
