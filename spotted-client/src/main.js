@@ -19,6 +19,7 @@ import {
   faRectangleList,
   faWrench,
   faBinoculars,
+  faCircleInfo,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { faSlideshare, faGithub } from "@fortawesome/free-brands-svg-icons";
@@ -36,7 +37,8 @@ library.add(
   faCirclePlus,
   faRectangleList,
   faWrench,
-  faBinoculars
+  faBinoculars,
+  faCircleInfo
 );
 
 import VueGoogleMaps from "@fawmi/vue-google-maps";

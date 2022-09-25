@@ -1,6 +1,18 @@
 <template>
+  <div class="toast toast-top toast-end mt-20" v-if="toast_show">
+    <div class="alert" :class="toast_variant">
+      <div>
+        <font-awesome-icon icon="fa-solid fa-circle-info" class="my-2" />
+        <span>{{ toast_msg }}</span>
+      </div>
+    </div>
+  </div>
   <div class="m-auto" v-if="!this.users">
-    <font-awesome-icon icon="fa-solid fa-spinner" class="fa-spin" size="3x" />
+    <font-awesome-icon
+      icon="fa-solid fa-spinner"
+      class="fa-spin text-accent"
+      size="3x"
+    />
   </div>
   <div
     class="alert alert-error shadow-lg m-auto w-1/2"
@@ -92,8 +104,10 @@ export default {
     return {
       users: "",
       users_show_alert: false,
-      users_alert_variant: "alert-error",
       users_alert_msg: "Something went wrong.",
+      toast_show: false,
+      toast_variant: "alert-success",
+      toast_msg: "Success!",
     };
   },
   computed: {
@@ -118,9 +132,20 @@ export default {
           uid: uid,
           id_token: this.userStore.idToken,
         });
+        this.toast_show = true;
+        this.toast_msg = result.data.message;
+        setTimeout(() => {
+          this.toast_show = false;
+        }, 3000);
         this.getAllUsers();
       } catch (error) {
         console.log(error);
+        this.toast_show = true;
+        this.toast_variant = "alert-error";
+        this.toast_msg = error.data.message;
+        setTimeout(() => {
+          this.toast_show = false;
+        }, 3000);
       }
     },
   },
