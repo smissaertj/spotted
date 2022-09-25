@@ -1,5 +1,8 @@
 <template>
-  <div class="overflow-x-auto w-full">
+  <div class="m-auto" v-if="!this.users">
+    <font-awesome-icon icon="fa-solid fa-spinner" class="fa-spin" size="3x" />
+  </div>
+  <div class="overflow-x-auto w-full" v-else>
     <table class="table w-100 m-auto">
       <!-- head -->
       <thead>
