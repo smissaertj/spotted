@@ -52,11 +52,6 @@ auth.onAuthStateChanged(() => {
     app.use(createPinia());
     app.use(router);
     app.use(VeeValidatePlugin);
-    app.use(VueGoogleMaps, {
-      load: {
-        key: import.meta.env.VITE_GMAPS_API_KEY,
-      },
-    });
     app.component("font-awesome-icon", FontAwesomeIcon);
     app.mount("#app");
   }

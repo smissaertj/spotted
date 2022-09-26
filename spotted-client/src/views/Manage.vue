@@ -2,7 +2,8 @@
   <div class="drawer drawer-mobile border-t border-b">
     <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
     <div class="drawer-content flex flex-col items-center justify-center">
-      <manage-profile v-if="this.$route.name == 'profile'" />
+      <new-submission v-if="this.$route.name == 'newSubmission'" />
+      <manage-profile v-else-if="this.$route.name == 'profile'" />
       <manage-users v-else-if="this.$route.name == 'manageUsers'" />
       <div v-else>Page content here</div>
       <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden"
@@ -64,11 +65,14 @@
 <script>
 import { mapStores } from "pinia";
 import useUserStore from "@/stores/user.js";
+import newSubmission from "@/components/newSubmission.vue";
 import manageProfile from "@/components/manageProfile.vue";
 import manageUsers from "@/components/manageUsers.vue";
+
 export default {
   name: "appProfile",
   components: {
+    newSubmission,
     manageProfile,
     manageUsers,
   },
