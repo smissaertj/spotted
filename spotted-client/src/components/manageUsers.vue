@@ -129,11 +129,14 @@ export default {
     },
     async changeAccountState(uid, action) {
       try {
+        this.toast_show = true;
+        this.toast_variant = "alert-warning";
+        this.toast_msg = "Updating User Record";
         const result = await authService.post("/user/state/" + action, {
           uid: uid,
           id_token: this.userStore.idToken,
         });
-        this.toast_show = true;
+        this.toast_variant = "alert-success";
         this.toast_msg = result.data.message;
         setTimeout(() => {
           this.toast_show = false;
