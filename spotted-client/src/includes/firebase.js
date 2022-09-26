@@ -17,5 +17,6 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 const usersCollection = db.collection("users");
+const mapMarkerCollection = db.collection("mapMarkers");
 
-export { auth, db, usersCollection };
+export { auth, db, usersCollection, mapMarkerCollection };

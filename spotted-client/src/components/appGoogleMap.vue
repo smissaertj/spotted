@@ -2,7 +2,7 @@
   <GoogleMap
     :api-key="apikey"
     :center="center"
-    :zoom="15"
+    :zoom="11"
     :options="mapStyle"
     class="w-full h-1/2"
   >
@@ -18,7 +18,7 @@ export default defineComponent({
   components: { GoogleMap, Marker },
   setup() {
     const apikey = import.meta.env.VITE_GMAPS_API_KEY;
-    const center = { lat: 40.689247, lng: -74.044502 };
+    const center = { lat: -20.1609, lng: 57.5012 };
     const markerOptions = {
       position: center,
       label: "L",

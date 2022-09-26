@@ -9,6 +9,7 @@ export default defineStore("user", {
     email: "",
     photoUrl: "",
     idToken: "",
+    uid: "",
   }),
   actions: {
     async checkUsername(username) {
@@ -58,6 +59,7 @@ export default defineStore("user", {
         this.displayName = user.displayName;
         this.email = user.email;
         this.photoUrl = user.photoUrl;
+        this.uid = user.uid;
         const docRef = await usersCollection
           .doc(user.uid)
           .get()
