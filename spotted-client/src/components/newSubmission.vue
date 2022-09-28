@@ -1,11 +1,11 @@
 <template>
   <app-google-map />
   <div
-    class="flex flex-col shadow-2xl bg-base-100 glass h-1/2 w-full justify-items-center"
+    class="flex flex-col shadow-2xl bg-base-100 glass h-2/3 w-full justify-items-center"
   >
     <h1 class="text-center text-3xl mt-4">Add a new location</h1>
-    <p class="text-center">
-      Click on the map to place a new Marker, then submit the form:
+    <p class="text-center text-accent">
+      Click on the map to place a new Marker, then submit the form.
     </p>
     <div class="w-1/3 mt-4 m-auto">
       <vee-form class="form-control w-full" @submit="submitNewLocation">
@@ -72,12 +72,12 @@
         <!--          </label>-->
         <!--          <ErrorMessage class="text-red-600" name="category" />-->
         <!--        </div>-->
-        <div class="p-6">
+        <div class="p-2">
           <!-- Upload Dropbox -->
           <div
-            class="w-full px-10 py-10 rounded text-center cursor-pointer border border-dashed border-gray-400 text-gray-400 transition duration-500 hover:text-white hover:bg-green-400 hover:border-green-400 hover:border-solid"
+            class="w-full p-2 rounded text-center cursor-pointer border border-dashed border-gray-400 text-gray-400 transition duration-500 hover:text-white hover:bg-secondary hover:border-secondary hover:border-solid"
             :class="{
-              'bg-green-400 border-green-400 border-solid': is_dragover,
+              'bg-secondary border-solid': is_dragover,
             }"
             @drag.prevent.stop=""
             @dragstart.prevent.stop=""
@@ -87,7 +87,8 @@
             @dragleave.prevent.stop="is_dragover = leave"
             @drop.prevent.stop="upload($event)"
           >
-            <h5>Drag & Drop your photos here</h5>
+            <p class="font-bold text-accent">Drag & Drop your photos here.</p>
+            <p>Supports JPG files up to 10Mb.</p>
           </div>
           <!-- Progess Bars -->
           <div class="mb-4" v-for="upload in uploads" :key="uploads.name">
@@ -139,7 +140,12 @@ import { mapStores, mapActions } from "pinia";
 import useUserStore from "@/stores/user";
 import useMapMarkersStore from "@/stores/mapMarkers";
 import appGoogleMap from "@/components/appGoogleMap.vue";
-import { auth } from "@/includes/firebase";
+import {
+  auth,
+  storage,
+  mapMarkerCollection,
+  photoCollection,
+} from "@/includes/firebase";
 export default {
   name: "newSubmission",
   components: {
@@ -159,6 +165,9 @@ export default {
         date: new Date().toISOString(),
         status: "Up To Date",
       },
+      is_dragover: false,
+      uploads: [],
+      photoUrlList: [],
     };
   },
   computed: {
@@ -166,6 +175,64 @@ export default {
   },
   methods: {
     ...mapActions(useMapMarkersStore, ["addNewMarker"]),
+    upload($event) {
+      this.is_dragover = false;
+      this.submit_show_alert = false;
+
+      const files = [...$event.dataTransfer.files];
+      files.forEach((file) => {
+        if (file.type !== "image/jpeg") {
+          this.submit_show_alert = true;
+          this.submit_alert_variant = "alert-error";
+          this.submit_alert_msg = `${file.type} is not an accepted type.`;
+          return;
+        }
+        const storageRef = storage.ref();
+        const fileRef = storageRef.child(`${this.userStore.uid}/${file.name}`);
+        const task = fileRef.put(file);
+
+        const uploadIndex =
+          this.uploads.push({
+            task,
+            current_progress: 0,
+            name: file.name,
+            variant: "bg-blue-400",
+            icon: "fas fa-spinner fa-spin",
+            text_class: "",
+          }) - 1;
+
+        task.on(
+          "state_changed",
+          (snapshot) => {
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            this.uploads[uploadIndex].current_progress = progress;
+          },
+          (error) => {
+            this.uploads[uploadIndex].variant = "bg-red-400";
+            this.uploads[uploadIndex].icon = "fas fa-times";
+            this.uploads[uploadIndex].text_class = "text-red-400";
+            console.log(error);
+          },
+          async () => {
+            const photo = {
+              uid: auth.currentUser.uid,
+              display_name: auth.currentUser.displayName,
+              original_name: task.snapshot.ref.name,
+              modified_name: task.snapshot.ref.name,
+            };
+
+            photo.url = await task.snapshot.ref.getDownloadURL();
+            this.photoUrlList.push(photo.url);
+            await photoCollection.add(photo);
+
+            this.uploads[uploadIndex].variant = "bg-green-400";
+            this.uploads[uploadIndex].icon = "fas fa-check";
+            this.uploads[uploadIndex].text_class = "text-green-400";
+          }
+        );
+      });
+    },
     async submitNewLocation(values) {
       try {
         this.in_submission = true;
@@ -175,7 +242,7 @@ export default {
         const user = auth.currentUser;
         if (user) {
           this.markerData.uid = this.userStore.uid;
-          console.log(this.markerData);
+          this.markerData.photoUrls = this.photoUrlList;
           await this.addNewMarker(this.markerData);
         } else {
           throw "Not authenticated.";
@@ -189,6 +256,7 @@ export default {
           Object.keys(this.markerData).forEach(
             (key) => (this.markerData[key] = "")
           );
+          this.uploads = [];
         }, 2000);
       } catch (error) {
         console.log(error);
@@ -203,5 +271,3 @@ export default {
   },
 };
 </script>
-
-<style scoped></style>

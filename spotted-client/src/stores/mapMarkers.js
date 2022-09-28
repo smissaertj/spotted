@@ -7,12 +7,10 @@ export default defineStore("mapMarkers", {
   }),
   actions: {
     async addNewMarker(markerData) {
-      console.log("adding a new marker");
       const photoUrlList = [];
       // TODO - Upload files
       markerData.photoUrlList = photoUrlList;
       await mapMarkerCollection.doc().set(markerData);
-      console.log("Done adding new marker");
     },
     async deleteMarker() {},
     async getAllMarkers() {},

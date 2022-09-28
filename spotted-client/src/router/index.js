@@ -27,7 +27,7 @@ const routes = [
     alias: "/manage",
     component: Manage,
     meta: {
-      requiresAuth: false,
+      requiresAuth: true,
     },
   },
   {
