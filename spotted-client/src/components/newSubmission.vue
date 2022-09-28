@@ -89,20 +89,22 @@
           >
             <p class="font-bold text-accent">Drag & Drop your photos here.</p>
             <p>Supports JPG files up to 10Mb.</p>
-          </div>
-          <!-- Progess Bars -->
-          <div class="mb-4" v-for="upload in uploads" :key="uploads.name">
-            <!-- File Name -->
-            <div class="font-bold text-sm" :class="upload.text_class">
-              <i :class="upload.icon"></i>{{ upload.name }}
-            </div>
-            <div class="flex h-4 overflow-hidden bg-gray-200 rounded">
-              <!-- Inner Progress Bar -->
-              <div
-                class="transition-all progress-bar"
-                :class="upload.variant"
-                :style="{ width: upload.current_progress + '%' }"
-              ></div>
+            <!-- Progess Bars -->
+            <div class="mb-4" v-for="upload in uploads" :key="uploads.name">
+              <!-- File Name -->
+              <div class="font-bold text-sm" :class="upload.text_class">
+                <i :class="upload.icon"></i>{{ upload.name }}
+              </div>
+              <div class="flex h-2 overflow-hidden bg-base-100 rounded">
+                <!-- Inner Progress Bar -->
+                <progress
+                  class="progress w-full"
+                  :value="upload.current_progress"
+                  max="100"
+                  :class="upload.variant"
+                  :style="{ width: upload.current_progress + '%' }"
+                ></progress>
+              </div>
             </div>
           </div>
         </div>
@@ -196,8 +198,7 @@ export default {
             task,
             current_progress: 0,
             name: file.name,
-            variant: "bg-blue-400",
-            icon: "fas fa-spinner fa-spin",
+            variant: "progress-accent",
             text_class: "",
           }) - 1;
 
@@ -209,8 +210,7 @@ export default {
             this.uploads[uploadIndex].current_progress = progress;
           },
           (error) => {
-            this.uploads[uploadIndex].variant = "bg-red-400";
-            this.uploads[uploadIndex].icon = "fas fa-times";
+            this.uploads[uploadIndex].variant = "progress-error";
             this.uploads[uploadIndex].text_class = "text-red-400";
             console.log(error);
           },
@@ -226,14 +226,13 @@ export default {
             this.photoUrlList.push(photo.url);
             await photoCollection.add(photo);
 
-            this.uploads[uploadIndex].variant = "bg-green-400";
-            this.uploads[uploadIndex].icon = "fas fa-check";
-            this.uploads[uploadIndex].text_class = "text-green-400";
+            this.uploads[uploadIndex].variant = "progress-success";
+            this.uploads[uploadIndex].text_class = "text-green-100";
           }
         );
       });
     },
-    async submitNewLocation(values) {
+    async submitNewLocation() {
       try {
         this.in_submission = true;
         this.submit_show_alert = true;

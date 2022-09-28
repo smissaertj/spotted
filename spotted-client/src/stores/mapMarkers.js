@@ -7,9 +7,6 @@ export default defineStore("mapMarkers", {
   }),
   actions: {
     async addNewMarker(markerData) {
-      const photoUrlList = [];
-      // TODO - Upload files
-      markerData.photoUrlList = photoUrlList;
       await mapMarkerCollection.doc().set(markerData);
     },
     async deleteMarker() {},
