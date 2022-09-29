@@ -1,14 +1,18 @@
 <template>
   <app-google-map />
   <div
-    class="flex flex-col shadow-2xl bg-base-100 glass h-2/3 w-full justify-items-center"
+    class="flex flex-col shadow-2xl bg-base-100 h-2/3 w-full justify-items-center"
   >
     <h1 class="text-center text-3xl mt-4">Add a new location</h1>
     <p class="text-center text-accent">
       Click on the map to place a new Marker, then submit the form.
     </p>
     <div class="w-1/3 mt-4 m-auto">
-      <vee-form class="form-control w-full" @submit="submitNewLocation">
+      <vee-form
+        class="form-control w-full"
+        @submit="submitNewLocation"
+        :validation-schema="submitSchema"
+      >
         <vee-field
           type="number"
           placeholder="Lat"
@@ -51,7 +55,6 @@
             required
             v-model="markerData.desc"
           />
-
           <ErrorMessage class="text-red-600" name="description" />
         </div>
         <!--        <div class="form-control mt-2">-->
@@ -148,6 +151,7 @@ import {
   mapMarkerCollection,
   photoCollection,
 } from "@/includes/firebase";
+
 export default {
   name: "newSubmission",
   components: {
@@ -155,6 +159,10 @@ export default {
   },
   data() {
     return {
+      submitSchema: {
+        title: "required",
+        description: "required",
+      },
       in_submission: false,
       submit_show_alert: false,
       submit_alert_variant: "alert-success",
@@ -240,6 +248,9 @@ export default {
         this.submit_alert_msg = "Submitting data...";
         const user = auth.currentUser;
         if (user) {
+          if (this.photoUrlList.length === 0) {
+            throw "Please add your photos.";
+          }
           this.markerData.uid = this.userStore.uid;
           this.markerData.photoUrls = this.photoUrlList;
           await this.addNewMarker(this.markerData);
@@ -256,6 +267,7 @@ export default {
             (key) => (this.markerData[key] = "")
           );
           this.uploads = [];
+          this.$router.push({ name: "mySubmissions" });
         }, 2000);
       } catch (error) {
         console.log(error);
