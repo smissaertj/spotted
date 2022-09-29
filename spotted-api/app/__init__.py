@@ -98,3 +98,18 @@ def change_account_state(action):
         except exceptions.FirebaseError as e:
             response = {'status': 'error', 'message': repr(e)}
             return response, 400
+
+
+@app.route('/api/markers/', methods=['POST'])
+def get_all_markers():
+    """ Fetch all marker data from the database """
+    if request.method == 'POST':
+        marker_data = []
+        try:
+            docs = db.collection('mapMarkers').stream()
+            for doc in docs:
+                marker_data.append(doc.to_dict())
+            return marker_data
+        except exceptions.FirebaseError as e:
+            response = {'status': 'error', 'message': repr(e)}
+            return response, 400
