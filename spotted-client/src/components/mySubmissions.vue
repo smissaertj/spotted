@@ -65,7 +65,8 @@ export default {
       try {
         if (auth.currentUser) {
           const result = await authService.post(
-            "/markers/" + this.userStore.uid
+            "/markers/" + this.userStore.uid,
+            { id_token: this.userStore.idToken }
           );
           this.markers = result.data;
         } else {
