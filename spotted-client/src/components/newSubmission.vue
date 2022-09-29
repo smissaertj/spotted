@@ -1,8 +1,6 @@
 <template>
   <app-google-map />
-  <div
-    class="flex flex-col shadow-2xl bg-base-100 h-2/3 w-full justify-items-center"
-  >
+  <div class="flex flex-col w-full m-auto">
     <h1 class="text-center text-3xl mt-4">Add a new location</h1>
     <p class="text-center text-accent">
       Click on the map to place a new Marker, then submit the form.
@@ -32,18 +30,14 @@
           hidden
         />
         <div class="form-control">
-          <label class="input-group">
-            <span class="label-text">Title</span>
-
-            <vee-field
-              type="text"
-              placeholder=""
-              class="input input-bordered w-full"
-              name="title"
-              required
-              v-model="markerData.title"
-            />
-          </label>
+          <vee-field
+            type="text"
+            placeholder="Title"
+            class="input input-bordered w-full"
+            name="title"
+            required
+            v-model="markerData.title"
+          />
           <ErrorMessage class="text-red-600" name="title" />
         </div>
         <div class="form-control mt-2">
@@ -57,24 +51,39 @@
           />
           <ErrorMessage class="text-red-600" name="description" />
         </div>
-        <!--        <div class="form-control mt-2">-->
-        <!--          <label class="input-group">-->
-        <!--            <span class="label-text">Category</span>-->
-        <!--            <vee-field-->
-        <!--              as="select"-->
-        <!--              type="select"-->
-        <!--              placeholder=""-->
-        <!--              class="input input-bordered w-full"-->
-        <!--              name="category"-->
-        <!--              required-->
-        <!--            >-->
-        <!--              <option value="">Coffee</option>-->
-        <!--              <option value="">Tea</option>-->
-        <!--              <option value="">Coke</option>-->
-        <!--            </vee-field>-->
-        <!--          </label>-->
-        <!--          <ErrorMessage class="text-red-600" name="category" />-->
-        <!--        </div>-->
+        <div class="form-control mt-2">
+          <vee-field
+            as="select"
+            type="select"
+            placeholder="Category"
+            class="input input-bordered w-full"
+            name="category"
+            required
+            v-model="markerData.category"
+          >
+            <option value="" disable selected>Category</option>
+            <option value="environment">Environment</option>
+            <option value="publicInfrastructure">Public Infrastructure</option>
+            <option value="safetyConcern">Safety Concern</option>
+          </vee-field>
+          <ErrorMessage class="text-red-600" name="category" />
+        </div>
+        <div class="form-control mt-2">
+          <vee-field
+            as="select"
+            type="select"
+            placeholder="Visibility"
+            class="input input-bordered w-full"
+            name="visibility"
+            required
+            v-model="markerData.visibility"
+          >
+            <option value="" disable selected>Visibility</option>
+            <option value="public">Public</option>
+            <option value="private">Private</option>
+          </vee-field>
+          <ErrorMessage class="text-red-600" name="visibility" />
+        </div>
         <div class="p-2">
           <!-- Upload Dropbox -->
           <div
@@ -162,6 +171,8 @@ export default {
       submitSchema: {
         title: "required",
         description: "required",
+        category: "required",
+        visibility: "required",
       },
       in_submission: false,
       submit_show_alert: false,
@@ -174,6 +185,8 @@ export default {
         long: "",
         date: new Date().toISOString(),
         status: "Up To Date",
+        category: "",
+        visibility: "",
       },
       is_dragover: false,
       uploads: [],
