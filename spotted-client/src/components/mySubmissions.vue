@@ -17,6 +17,7 @@
       <!-- head -->
       <thead>
         <tr>
+          <th>Select</th>
           <th>Title</th>
           <th>Description</th>
           <th>Visibility</th>
@@ -48,6 +49,7 @@
       </tbody>
       <thead>
         <tr>
+          <th>Select</th>
           <th>Title</th>
           <th>Description</th>
           <th>Visibility</th>
@@ -60,7 +62,6 @@
 </template>
 
 <script>
-// Todo: Need a marker ID: Create link to /explore/marker_id
 import { mapStores } from "pinia";
 import useUserStore from "@/stores/user";
 import { auth } from "@/includes/firebase";

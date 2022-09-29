@@ -154,7 +154,7 @@ import { mapStores, mapActions } from "pinia";
 import useUserStore from "@/stores/user";
 import useMapMarkersStore from "@/stores/mapMarkers";
 import appGoogleMap from "@/components/appGoogleMap.vue";
-import { auth } from "@/includes/firebase";
+import { auth, storage, photoCollection } from "@/includes/firebase";
 
 export default {
   name: "newSubmission",

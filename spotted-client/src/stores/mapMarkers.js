@@ -8,7 +8,8 @@ export default defineStore("mapMarkers", {
   }),
   actions: {
     async addNewMarker(markerData) {
-      await mapMarkerCollection.doc().set(markerData);
+      const docRef = await mapMarkerCollection.add(markerData);
+      docRef.update({ muid: docRef.id }); // Set the document id as a field in the document
     },
     async deleteMarker() {},
   },
