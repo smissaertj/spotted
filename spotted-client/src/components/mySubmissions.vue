@@ -1,6 +1,19 @@
 <template>
+  <div class="m-auto" v-if="this.is_loading">
+    <font-awesome-icon
+      icon="fa-solid fa-spinner"
+      class="fa-spin text-accent"
+      size="3x"
+    />
+  </div>
   <div class="overflow-x-auto">
-    <table class="table table-zebra w-full">
+    <div class="m-auto" v-if="this.markers.length === 0 && !this.is_loading">
+      You have no submissions.
+    </div>
+    <table
+      v-else-if="this.markers.length > 0 && !this.is_loading"
+      class="table table-zebra w-full"
+    >
       <!-- head -->
       <thead>
         <tr>
@@ -47,7 +60,7 @@
 </template>
 
 <script>
-// Todo: Loading Spinner | render table when markers.length > 0 else "No Data" | Need a marker ID: Create link to /explore/marker_id
+// Todo: Need a marker ID: Create link to /explore/marker_id
 import { mapStores } from "pinia";
 import useUserStore from "@/stores/user";
 import { auth } from "@/includes/firebase";
@@ -61,6 +74,7 @@ export default {
   data() {
     return {
       markers: [],
+      is_loading: false,
     };
   },
   computed: {
@@ -70,11 +84,13 @@ export default {
     async getMarkers() {
       try {
         if (auth.currentUser) {
+          this.is_loading = true;
           const result = await authService.post(
             "/markers/user/" + this.userStore.uid,
             { id_token: this.userStore.idToken }
           );
           this.markers = result.data;
+          this.is_loading = false;
         } else {
           throw "Not authenticated";
         }
