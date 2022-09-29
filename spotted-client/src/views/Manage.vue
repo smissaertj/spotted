@@ -3,6 +3,7 @@
     <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
     <div class="drawer-content flex flex-col items-center justify-center">
       <new-submission v-if="this.$route.name == 'newSubmission'" />
+      <my-submissions v-else-if="this.$route.name == 'mySubmissions'" />
       <manage-profile v-else-if="this.$route.name == 'profile'" />
       <manage-users v-else-if="this.$route.name == 'manageUsers'" />
       <div v-else>Page content here</div>
@@ -66,6 +67,7 @@
 import { mapStores } from "pinia";
 import useUserStore from "@/stores/user.js";
 import newSubmission from "@/components/newSubmission.vue";
+import mySubmissions from "@/components/mySubmissions.vue";
 import manageProfile from "@/components/manageProfile.vue";
 import manageUsers from "@/components/manageUsers.vue";
 
@@ -73,6 +75,7 @@ export default {
   name: "appProfile",
   components: {
     newSubmission,
+    mySubmissions,
     manageProfile,
     manageUsers,
   },

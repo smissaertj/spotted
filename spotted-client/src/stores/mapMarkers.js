@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { auth, mapMarkerCollection } from "@/includes/firebase";
+import axios from "axios";
 
 export default defineStore("mapMarkers", {
   state: () => ({
@@ -10,6 +11,5 @@ export default defineStore("mapMarkers", {
       await mapMarkerCollection.doc().set(markerData);
     },
     async deleteMarker() {},
-    async getAllMarkers() {},
   },
 });
