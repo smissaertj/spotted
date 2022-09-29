@@ -18,7 +18,12 @@
           <td>{{ marker.desc }}</td>
           <td>{{ marker.visibility }}</td>
           <td>
-            <img :src="marker.photoUrls[0]" alt="Marker Photo" class="w-10" />
+            <img
+              v-if="marker.photoUrls.length > 0"
+              :src="marker.photoUrls[0]"
+              alt="Marker Photo"
+              class="w-10"
+            />
           </td>
           <td>
             <button class="btn btn-ghost btn-xs hover:btn-error">Delete</button>
@@ -42,6 +47,7 @@
 </template>
 
 <script>
+// Todo: Loading Spinner | render table when markers.length > 0 else "No Data" | Need a marker ID: Create link to /explore/marker_id
 import { mapStores } from "pinia";
 import useUserStore from "@/stores/user";
 import { auth } from "@/includes/firebase";
@@ -65,7 +71,7 @@ export default {
       try {
         if (auth.currentUser) {
           const result = await authService.post(
-            "/markers/" + this.userStore.uid,
+            "/markers/user/" + this.userStore.uid,
             { id_token: this.userStore.idToken }
           );
           this.markers = result.data;

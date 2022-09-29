@@ -115,7 +115,7 @@ def get_all_markers():
             return response, 400
 
 
-@app.route('/api/markers/<uid>', methods=['POST'])
+@app.route('/api/markers/user/<uid>', methods=['POST'])
 @check_token
 def get_user_markers(uid):
     """ Fetch all marker data from the database """
@@ -123,6 +123,22 @@ def get_user_markers(uid):
         marker_data = []
         try:
             docs = db.collection('mapMarkers').where('uid', '==', uid).stream()
+            for doc in docs:
+                marker_data.append(doc.to_dict())
+            return marker_data
+        except exceptions.FirebaseError as e:
+            response = {'status': 'error', 'message': repr(e)}
+            return response, 400
+
+
+@app.route('/api/markers/<muid>', methods=['POST'])
+@check_token
+def get_marker_id(muid):
+    """ Fetch all marker data from the database """
+    if request.method == 'POST':
+        marker_data = []
+        try:
+            docs = db.collection('mapMarkers').where('muid', '==', muid).stream()
             for doc in docs:
                 marker_data.append(doc.to_dict())
             return marker_data
