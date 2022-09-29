@@ -42,15 +42,9 @@
 </template>
 
 <script>
-import { mapStores, mapActions } from "pinia";
+import { mapStores } from "pinia";
 import useUserStore from "@/stores/user";
-import useMapMarkersStore from "@/stores/mapMarkers";
-import {
-  auth,
-  storage,
-  mapMarkerCollection,
-  photoCollection,
-} from "@/includes/firebase";
+import { auth } from "@/includes/firebase";
 import axios from "axios";
 const authService = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -64,17 +58,16 @@ export default {
     };
   },
   computed: {
-    ...mapStores(useUserStore, useMapMarkersStore),
+    ...mapStores(useUserStore),
   },
   methods: {
-    ...mapActions(useMapMarkersStore, ["getAllMarkers"]),
     async getMarkers() {
       try {
-        console.log("Getting all Markers");
         if (auth.currentUser) {
-          const result = await authService.post("/markers");
+          const result = await authService.post(
+            "/markers/" + this.userStore.uid
+          );
           this.markers = result.data;
-          console.log(this.markers);
         } else {
           throw "Not authenticated";
         }

@@ -61,7 +61,7 @@
             required
             v-model="markerData.category"
           >
-            <option value="" disable selected>Category</option>
+            <option value="" disabled selected>Category</option>
             <option value="environment">Environment</option>
             <option value="publicInfrastructure">Public Infrastructure</option>
             <option value="safetyConcern">Safety Concern</option>
@@ -78,7 +78,7 @@
             required
             v-model="markerData.visibility"
           >
-            <option value="" disable selected>Visibility</option>
+            <option value="" disabled selected>Visibility</option>
             <option value="public">Public</option>
             <option value="private">Private</option>
           </vee-field>
@@ -154,12 +154,7 @@ import { mapStores, mapActions } from "pinia";
 import useUserStore from "@/stores/user";
 import useMapMarkersStore from "@/stores/mapMarkers";
 import appGoogleMap from "@/components/appGoogleMap.vue";
-import {
-  auth,
-  storage,
-  mapMarkerCollection,
-  photoCollection,
-} from "@/includes/firebase";
+import { auth } from "@/includes/firebase";
 
 export default {
   name: "newSubmission",
