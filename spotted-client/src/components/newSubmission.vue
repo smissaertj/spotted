@@ -68,22 +68,6 @@
           </vee-field>
           <ErrorMessage class="text-red-600" name="category" />
         </div>
-        <div class="form-control mt-2">
-          <vee-field
-            as="select"
-            type="select"
-            placeholder="Visibility"
-            class="input input-bordered w-full"
-            name="visibility"
-            required
-            v-model="markerData.visibility"
-          >
-            <option value="" disabled selected>Visibility</option>
-            <option value="public">Public</option>
-            <option value="private">Private</option>
-          </vee-field>
-          <ErrorMessage class="text-red-600" name="visibility" />
-        </div>
         <div class="p-2">
           <!-- Upload Dropbox -->
           <div
@@ -181,7 +165,8 @@ export default {
         date: new Date().toISOString(),
         status: "Up To Date",
         category: "",
-        visibility: "",
+        isVisible: true,
+        isAdminHidden: false,
       },
       is_dragover: false,
       uploads: [],

@@ -6,7 +6,7 @@
       <my-submissions v-else-if="this.$route.name == 'mySubmissions'" />
       <manage-profile v-else-if="this.$route.name == 'profile'" />
       <manage-users v-else-if="this.$route.name == 'manageUsers'" />
-      <div v-else>Page content here</div>
+      <div v-else>Coming Soon!</div>
       <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden"
         >Menu</label
       >

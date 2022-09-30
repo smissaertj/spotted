@@ -12,7 +12,7 @@
     </div>
     <table
       v-else-if="this.markers.length > 0 && !this.is_loading"
-      class="table table-zebra w-full"
+      class="table table-zebra w-full text-center"
     >
       <!-- head -->
       <thead>
@@ -20,7 +20,6 @@
           <th>Select</th>
           <th>Title</th>
           <th>Description</th>
-          <th>Visibility</th>
           <th>Photo</th>
           <th>Actions</th>
         </tr>
@@ -28,9 +27,17 @@
       <tbody>
         <!-- rows -->
         <tr v-for="marker in markers" :key="marker">
+          <td>
+            <label>
+              <input
+                type="checkbox"
+                class="checkbox"
+                v-model="marker.selected"
+              />
+            </label>
+          </td>
           <td>{{ marker.title }}</td>
           <td>{{ marker.desc }}</td>
-          <td>{{ marker.visibility }}</td>
           <td>
             <img
               v-if="marker.photoUrls.length > 0"
@@ -40,9 +47,47 @@
             />
           </td>
           <td>
-            <button class="btn btn-ghost btn-xs hover:btn-error">Delete</button>
-            <button class="btn btn-ghost btn-xs mx-2 hover:btn-warning">
-              Hide
+            <div
+              class="tooltip"
+              data-tip="Hidden by Administrator"
+              v-if="marker.isAdminHidden"
+            >
+              <button
+                class="btn btn-ghost btn-xs"
+                :disabled="marker.isAdminHidden"
+                :class="{
+                  'hover:btn-success': !marker.isVisible,
+                  'hover:btn-warning': marker.isVisible,
+                }"
+                @click.prevent="
+                  changeVisibility(marker.muid, !marker.isVisible)
+                "
+              >
+                <font-awesome-icon icon="fa-solid fa-eye-slash" />
+              </button>
+            </div>
+            <button
+              v-else-if="!marker.isAdminHidden"
+              class="btn btn-ghost btn-xs"
+              :disabled="!marker.selected"
+              :class="{
+                'hover:btn-success': !marker.isVisible,
+                'hover:btn-warning': marker.isVisible,
+              }"
+              @click.prevent="changeVisibility(marker.muid, !marker.isVisible)"
+            >
+              <font-awesome-icon
+                icon="fa-solid fa-eye"
+                v-if="!marker.isVisible"
+              />
+              <font-awesome-icon icon="fa-solid fa-eye-slash" v-else />
+            </button>
+            <button
+              class="btn btn-ghost btn-xs hover:btn-error m-2"
+              :disabled="!marker.selected"
+              @click.prevent="deleteMarker(marker.muid, 'delete')"
+            >
+              Delete
             </button>
           </td>
         </tr>
@@ -52,7 +97,6 @@
           <th>Select</th>
           <th>Title</th>
           <th>Description</th>
-          <th>Visibility</th>
           <th>Photo</th>
           <th>Actions</th>
         </tr>
@@ -98,6 +142,9 @@ export default {
       } catch (error) {
         console.log(error);
       }
+    },
+    changeVisibility(muid, isVisible) {
+      console.log(muid, isVisible);
     },
   },
   beforeMount() {
