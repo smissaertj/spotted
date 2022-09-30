@@ -1,5 +1,5 @@
 <template>
-  <app-google-map />
+  <app-google-map class="h-full" />
 </template>
 
 <script>
