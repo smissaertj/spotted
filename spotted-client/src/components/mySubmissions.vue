@@ -20,7 +20,7 @@
     </div>
     <table
       v-else-if="this.markers.length > 0 && !this.is_loading"
-      class="table table-zebra w-full text-center"
+      class="table table-zebra w-full text-center whitespace-normal"
     >
       <!-- head -->
       <thead>
@@ -45,7 +45,7 @@
             </label>
           </td>
           <td>{{ marker.title }}</td>
-          <td>{{ marker.desc }}</td>
+          <td class="whitespace-normal">{{ marker.desc }}</td>
           <td>
             <img
               v-if="marker.photoUrls.length > 0"

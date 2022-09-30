@@ -169,6 +169,7 @@ export default {
       },
       is_dragover: false,
       uploads: [],
+      photoIDs: [],
       photoUrlList: [],
     };
   },
@@ -217,14 +218,14 @@ export default {
           async () => {
             const photo = {
               uid: auth.currentUser.uid,
-              display_name: auth.currentUser.displayName,
-              original_name: task.snapshot.ref.name,
-              modified_name: task.snapshot.ref.name,
+              muid: "",
+              filename: task.snapshot.ref.name,
             };
 
             photo.url = await task.snapshot.ref.getDownloadURL();
             this.photoUrlList.push(photo.url);
-            await photoCollection.add(photo);
+            const docRef = await photoCollection.add(photo);
+            this.photoIDs.push(docRef.id);
 
             this.uploads[uploadIndex].variant = "progress-success";
             this.uploads[uploadIndex].text_class = "text-green-100";
@@ -233,7 +234,6 @@ export default {
       });
     },
     async submitNewLocation() {
-      console.log("submit");
       try {
         this.in_submission = true;
         this.submit_show_alert = true;
@@ -246,6 +246,7 @@ export default {
           }
           this.markerData.uid = this.userStore.uid;
           this.markerData.photoUrls = this.photoUrlList;
+          this.markerData.photoIDs = this.photoIDs;
           await this.addNewMarker(this.markerData);
         } else {
           throw "Not authenticated.";

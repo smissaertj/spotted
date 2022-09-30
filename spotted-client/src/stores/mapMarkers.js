@@ -1,5 +1,10 @@
 import { defineStore } from "pinia";
-import { auth, mapMarkerCollection } from "@/includes/firebase";
+import {
+  auth,
+  db,
+  mapMarkerCollection,
+  photoCollection,
+} from "@/includes/firebase";
 import axios from "axios";
 
 export default defineStore("mapMarkers", {
@@ -9,7 +14,13 @@ export default defineStore("mapMarkers", {
   actions: {
     async addNewMarker(markerData) {
       const docRef = await mapMarkerCollection.add(markerData);
-      docRef.update({ muid: docRef.id }); // Set the document id as a field in the document
+      const markerID = docRef.id;
+      docRef.update({ muid: markerID }); // Set the document id as a field in the document
+
+      markerData.photoIDs.forEach((id) => {
+        const docRef = photoCollection.doc(id);
+        docRef.update({ muid: markerID });
+      });
     },
     async updateVisibility(muid, isVisible) {
       const docRef = await mapMarkerCollection.doc(muid);
@@ -18,6 +29,13 @@ export default defineStore("mapMarkers", {
     async deleteMarker(muid) {
       const docRef = await mapMarkerCollection.doc(muid);
       docRef.delete();
+
+      const photoRefs = await photoCollection.where("muid", "==", muid).get();
+      const batch = db.batch();
+      photoRefs.forEach((doc) => {
+        batch.delete(doc.ref);
+      });
+      await batch.commit();
     },
   },
 });
