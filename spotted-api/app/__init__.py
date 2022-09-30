@@ -86,12 +86,17 @@ def change_account_state(action):
         try:
             if action == 'disable':
                 auth.update_user(uid, disabled=True)
+                doc_ref = db.collection('users').document(uid)
+                doc_ref.update({'isActive': False})
                 response = jsonify({'status': 'success', 'message': 'user disabled'})
             elif action == 'enable':
                 auth.update_user(uid, disabled=False)
+                doc_ref = db.collection('users').document(uid)
+                doc_ref.update({'isActive': True})
                 response = jsonify({'status': 'success', 'message': 'user enabled'})
             elif action == 'delete':
                 auth.delete_user(uid);
+                db.collection('users').document(uid).delete()
                 response = jsonify({'status': 'success', 'message': 'user deleted'})
             return response, 200
 
