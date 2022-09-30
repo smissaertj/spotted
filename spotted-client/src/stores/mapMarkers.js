@@ -11,6 +11,13 @@ export default defineStore("mapMarkers", {
       const docRef = await mapMarkerCollection.add(markerData);
       docRef.update({ muid: docRef.id }); // Set the document id as a field in the document
     },
-    async deleteMarker() {},
+    async updateVisibility(muid, isVisible) {
+      const docRef = await mapMarkerCollection.doc(muid);
+      docRef.update({ isVisible: isVisible });
+    },
+    async deleteMarker(muid) {
+      const docRef = await mapMarkerCollection.doc(muid);
+      docRef.delete();
+    },
   },
 });

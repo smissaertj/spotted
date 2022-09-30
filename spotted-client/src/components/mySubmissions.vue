@@ -1,4 +1,12 @@
 <template>
+  <div class="toast toast-top toast-end mt-20" v-if="toast_show">
+    <div class="alert" :class="toast_variant">
+      <div>
+        <font-awesome-icon icon="fa-solid fa-circle-info" class="my-2" />
+        <span>{{ toast_msg }}</span>
+      </div>
+    </div>
+  </div>
   <div class="m-auto" v-if="this.is_loading">
     <font-awesome-icon
       icon="fa-solid fa-spinner"
@@ -85,7 +93,7 @@
             <button
               class="btn btn-ghost btn-xs hover:btn-error m-2"
               :disabled="!marker.selected"
-              @click.prevent="deleteMarker(marker.muid, 'delete')"
+              @click.prevent="deleteEntry(marker.muid)"
             >
               Delete
             </button>
@@ -106,8 +114,9 @@
 </template>
 
 <script>
-import { mapStores } from "pinia";
+import { mapStores, mapActions } from "pinia";
 import useUserStore from "@/stores/user";
+import useMapMarkersStore from "@/stores/mapMarkers.js";
 import { auth } from "@/includes/firebase";
 import axios from "axios";
 const authService = axios.create({
@@ -120,12 +129,19 @@ export default {
     return {
       markers: [],
       is_loading: false,
+      toast_show: false,
+      toast_variant: "alert-success",
+      toast_msg: "Success!",
     };
   },
   computed: {
-    ...mapStores(useUserStore),
+    ...mapStores(useUserStore, useMapMarkersStore),
   },
   methods: {
+    ...mapActions(useMapMarkersStore, {
+      updateVisibility: "updateVisibility",
+      deleteMarker: "deleteMarker",
+    }),
     async getMarkers() {
       try {
         if (auth.currentUser) {
@@ -143,8 +159,37 @@ export default {
         console.log(error);
       }
     },
-    changeVisibility(muid, isVisible) {
-      console.log(muid, isVisible);
+    async changeVisibility(muid, isVisible) {
+      try {
+        await this.updateVisibility(muid, isVisible);
+        this.toast_show = true;
+        this.toast_msg = "Updated!";
+      } catch (error) {
+        console.log(error);
+        this.toast_show = true;
+        this.toast_variant = "alert-error";
+        this.toast_msg = "Error!";
+      }
+      setTimeout(() => {
+        this.toast_show = false;
+        this.getMarkers();
+      }, 2000);
+    },
+    async deleteEntry(muid) {
+      try {
+        await this.deleteMarker(muid);
+        this.toast_show = true;
+        this.toast_msg = "Deleted!";
+      } catch (error) {
+        console.log(error);
+        this.toast_show = true;
+        this.toast_variant = "alert-error";
+        this.toast_msg = "Error!";
+      }
+      setTimeout(() => {
+        this.toast_show = false;
+        this.getMarkers();
+      }, 2000);
     },
   },
   beforeMount() {

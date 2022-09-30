@@ -151,7 +151,6 @@ export default {
         title: "required",
         description: "required",
         category: "required",
-        visibility: "required",
       },
       in_submission: false,
       submit_show_alert: false,
@@ -234,6 +233,7 @@ export default {
       });
     },
     async submitNewLocation() {
+      console.log("submit");
       try {
         this.in_submission = true;
         this.submit_show_alert = true;
