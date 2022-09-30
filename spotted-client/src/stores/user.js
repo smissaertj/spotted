@@ -79,6 +79,8 @@ export default defineStore("user", {
       if (user.displayName != values.username) {
         user.updateProfile({ displayName: values.username });
         this.displayName = values.username;
+        const docRef = usersCollection.doc(this.uid);
+        docRef.update({ username: this.displayName });
       }
       if (user.email != values.email) {
         user.updateEmail(values.email);
