@@ -1,12 +1,4 @@
 <template>
-  <div class="toast toast-top toast-end mt-20" v-if="toast_show">
-    <div class="alert" :class="toast_variant">
-      <div>
-        <font-awesome-icon icon="fa-solid fa-circle-info" class="my-2" />
-        <span>{{ toast_msg }}</span>
-      </div>
-    </div>
-  </div>
   <div class="m-auto" v-if="this.is_loading">
     <font-awesome-icon
       icon="fa-solid fa-spinner"
@@ -17,6 +9,14 @@
   <div class="overflow-y-auto break-all">
     <div class="m-auto" v-if="this.markers.length === 0 && !this.is_loading">
       There are no submissions.
+    </div>
+    <div class="toast toast-top toast-end mt-20" v-if="toast_show">
+      <div class="alert" :class="toast_variant">
+        <div>
+          <font-awesome-icon icon="fa-solid fa-circle-info" class="my-2" />
+          <span>{{ toast_msg }}</span>
+        </div>
+      </div>
     </div>
     <table
       v-else-if="this.markers.length > 0 && !this.is_loading"
@@ -149,7 +149,6 @@ export default {
           "/markers/" + muid + "/hide/" + isAdminHidden,
           { id_token: this.userStore.idToken }
         );
-        await this.updateVisibility(muid, isAdminHidden);
         this.toast_show = true;
         this.toast_msg = "Updated!";
       } catch (error) {
