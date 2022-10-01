@@ -105,7 +105,7 @@ def change_account_state(action):
             return response, 400
 
 
-@app.route('/api/markers/', methods=['POST'])
+@app.route('/api/markers', methods=['POST'])
 def get_all_markers():
     """ Fetch all marker data from the database """
     if request.method == 'POST':
