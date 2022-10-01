@@ -150,3 +150,22 @@ def get_marker_id(muid):
         except exceptions.FirebaseError as e:
             response = {'status': 'error', 'message': repr(e)}
             return response, 400
+
+
+@app.route('/api/markers/<muid>/hide/<isAdminHidden>', methods=['POST'])
+@check_admin_token
+def update_marker_visibility(muid, isAdminHidden):
+    """ Set marker.isAdminHidden to True of False"""
+    if request.method == 'POST':
+        try:
+            # isVisible = True if isVisible == 'true' else False
+            # isAdminHidden = True if isVisible == 'false' else False
+            # print(isVisible)
+            print(isAdminHidden)
+            doc_ref = db.collection('mapMarkers').document(muid)
+            doc_ref.update({'isAdminHidden': False if isAdminHidden == 'false' else True, 'isVisible': False if isAdminHidden == 'true' else True})
+            response = {'status': 'success', 'message': 'Document updated!'}
+            return response, 200
+        except exceptions.FirebaseError as e:
+            response = {'status': 'error', 'message': repr(e)}
+            return response, 400

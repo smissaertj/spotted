@@ -5,7 +5,6 @@ import {
   mapMarkerCollection,
   photoCollection,
 } from "@/includes/firebase";
-import axios from "axios";
 
 export default defineStore("mapMarkers", {
   state: () => ({

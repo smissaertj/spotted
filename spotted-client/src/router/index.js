@@ -55,6 +55,15 @@ const routes = [
       requiresAdmin: true,
     },
   },
+  {
+    name: "manageSubmissions",
+    path: "/submissions",
+    component: Manage,
+    meta: {
+      requiresAuth: true,
+      requiresAdmin: true,
+    },
+  },
   { name: "NotFound", path: "/:pathMatch(.*)*", component: NotFound },
 ];
 

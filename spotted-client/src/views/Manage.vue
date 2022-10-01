@@ -4,6 +4,7 @@
     <div class="drawer-content flex flex-col items-center justify-center">
       <new-submission v-if="this.$route.name == 'newSubmission'" />
       <my-submissions v-else-if="this.$route.name == 'mySubmissions'" />
+      <manage-submissions v-else-if="this.$route.name == 'manageSubmissions'" />
       <manage-profile v-else-if="this.$route.name == 'profile'" />
       <manage-users v-else-if="this.$route.name == 'manageUsers'" />
       <div v-else>Coming Soon!</div>
@@ -50,9 +51,11 @@
           >
         </li>
         <li v-if="userStore.userIsAdmin">
-          <a
+          <router-link
+            :to="{ name: 'manageSubmissions' }"
+            exact-active-class="active"
             ><font-awesome-icon icon="fa-solid fa-wrench" />Manage
-            Submissions</a
+            Submissions</router-link
           >
         </li>
         <li v-if="userStore.userIsAdmin">
@@ -68,14 +71,16 @@ import { mapStores } from "pinia";
 import useUserStore from "@/stores/user.js";
 import newSubmission from "@/components/newSubmission.vue";
 import mySubmissions from "@/components/mySubmissions.vue";
+import manageSubmissions from "@/components/manageSubmissions.vue";
 import manageProfile from "@/components/manageProfile.vue";
 import manageUsers from "@/components/manageUsers.vue";
 
 export default {
-  name: "appProfile",
+  name: "appManage",
   components: {
     newSubmission,
     mySubmissions,
+    manageSubmissions,
     manageProfile,
     manageUsers,
   },

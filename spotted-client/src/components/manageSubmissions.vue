@@ -59,40 +59,22 @@
             />
           </td>
           <td>
-            <div
-              class="tooltip"
-              data-tip="Hidden by Administrator"
-              v-if="marker.isAdminHidden"
-            >
-              <button
-                class="btn btn-ghost btn-xs"
-                :disabled="marker.isAdminHidden"
-                :class="{
-                  'hover:btn-success': !marker.isVisible,
-                  'hover:btn-warning': marker.isVisible,
-                }"
-                @click.prevent="
-                  changeVisibility(marker.muid, !marker.isVisible)
-                "
-              >
-                <font-awesome-icon icon="fa-solid fa-eye-slash" />
-              </button>
-            </div>
             <button
-              v-else-if="!marker.isAdminHidden"
               class="btn btn-ghost btn-xs"
               :disabled="!marker.selected"
               :class="{
-                'hover:btn-success': !marker.isVisible,
-                'hover:btn-warning': marker.isVisible,
+                'hover:btn-success': marker.isAdminHidden,
+                'hover:btn-warning': !marker.isAdminHidden,
               }"
-              @click.prevent="changeVisibility(marker.muid, !marker.isVisible)"
+              @click.prevent="
+                changeVisibility(marker.muid, !marker.isAdminHidden)
+              "
             >
               <font-awesome-icon
-                icon="fa-solid fa-eye"
-                v-if="!marker.isVisible"
+                icon="fa-solid fa-eye-slash"
+                v-if="!marker.isAdminHidden"
               />
-              <font-awesome-icon icon="fa-solid fa-eye-slash" v-else />
+              <font-awesome-icon icon="fa-solid fa-eye" v-else />
             </button>
             <button
               class="btn btn-ghost btn-xs hover:btn-error m-2"
@@ -143,7 +125,6 @@ export default {
   },
   methods: {
     ...mapActions(useMapMarkersStore, {
-      updateVisibility: "updateVisibility",
       deleteMarker: "deleteMarker",
     }),
     async getMarkers() {
@@ -162,9 +143,13 @@ export default {
         console.log(error);
       }
     },
-    async changeVisibility(muid, isVisible) {
+    async changeVisibility(muid, isAdminHidden) {
       try {
-        await this.updateVisibility(muid, isVisible);
+        const result = await authService.post(
+          "/markers/" + muid + "/hide/" + isAdminHidden,
+          { id_token: this.userStore.idToken }
+        );
+        await this.updateVisibility(muid, isAdminHidden);
         this.toast_show = true;
         this.toast_msg = "Updated!";
       } catch (error) {
