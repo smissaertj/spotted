@@ -16,7 +16,7 @@
   </div>
   <div class="overflow-y-auto break-all">
     <div class="m-auto" v-if="this.markers.length === 0 && !this.is_loading">
-      You have no submissions.
+      There are no submissions.
     </div>
     <table
       v-else-if="this.markers.length > 0 && !this.is_loading"
@@ -25,11 +25,11 @@
       <!-- head -->
       <thead>
         <tr>
-          <th class="w-2/12">Select</th>
-          <th class="w-2/12">Title</th>
-          <th class="max-w-screen-md">Description</th>
+          <th>Select</th>
+          <th>Title</th>
+          <th>Description</th>
           <th class="w-2/12">Photo</th>
-          <th class="w-2/12">Actions</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -44,7 +44,9 @@
               />
             </label>
           </td>
-          <td>{{ marker.title }}</td>
+          <td>
+            {{ marker.title }}
+          </td>
           <td class="min-w-[12rem] max-w-[20rem] whitespace-normal">
             {{ marker.desc }}
           </td>
@@ -125,7 +127,7 @@ const authService = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
 });
 export default {
-  name: "mySubmissions",
+  name: "manageSubmissions",
   components: {},
   data() {
     return {
@@ -148,10 +150,9 @@ export default {
       try {
         if (auth.currentUser) {
           this.is_loading = true;
-          const result = await authService.post(
-            "/markers/user/" + this.userStore.uid,
-            { id_token: this.userStore.idToken }
-          );
+          const result = await authService.post("/markers", {
+            id_token: this.userStore.idToken,
+          });
           this.markers = result.data;
           this.is_loading = false;
         } else {
