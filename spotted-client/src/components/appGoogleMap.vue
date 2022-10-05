@@ -3,394 +3,88 @@
     :api-key="apikey"
     :center="center"
     :zoom="11"
+    zoom-control-position="TOP_RIGHT"
     :styles="styles"
     class="w-full h-1/2"
+    @click="
+      $emit('addMarker', $event);
+      recenterMap($event);
+    "
   >
-    <Marker :options="markerOptions" />
+    <MarkerCluster>
+      <Marker
+        v-for="(marker, i) in markers"
+        :options="{
+          position: marker.position,
+          label: marker.label,
+          title: marker.title,
+          clickable: marker.clickable,
+        }"
+        :key="i"
+      >
+        <InfoWindow class="text-accent-content w-fit">
+          <div>
+            <h1 class="font-bold text-4xl m-2">{{ marker.title }}</h1>
+            <div>
+              <p class="text-2xl m-2">
+                <span class="font-bold">Category:</span> {{ marker.category }}
+              </p>
+              <p class="text-2xl m-2">
+                {{ marker.desc }}
+              </p>
+            </div>
+            <div v-if="marker.photoUrls.length > 0" class="flex flex-row">
+              <img
+                v-for="(url, i) in marker.photoUrls"
+                :key="i"
+                :src="url"
+                alt="Marker Photo"
+                class="max-w-15 max-h-15 m-auto"
+              />
+            </div>
+          </div>
+        </InfoWindow>
+      </Marker>
+    </MarkerCluster>
   </GoogleMap>
 </template>
 
 <script>
 import { defineComponent } from "vue";
-import { GoogleMap, Marker } from "vue3-google-map";
+import { mapStores, mapActions } from "pinia";
+import useMapMarkersStore from "@/stores/mapMarkers";
+import { GoogleMap, Marker, InfoWindow } from "vue3-google-map";
 
 export default defineComponent({
-  components: { GoogleMap, Marker },
-  setup() {
-    const apikey = import.meta.env.VITE_GMAPS_API_KEY;
-    const center = { lat: -20.1609, lng: 57.5012 };
-    const markerOptions = {
-      position: center,
-      label: "L",
-      title: "LADY LIBERTY",
-    };
-    const styles = [
-      {
-        featureType: "all",
-        elementType: "all",
-        stylers: [
-          {
-            visibility: "on",
-          },
-        ],
-      },
-      {
-        featureType: "all",
-        elementType: "labels",
-        stylers: [
-          {
-            visibility: "off",
-          },
-          {
-            saturation: "-100",
-          },
-        ],
-      },
-      {
-        featureType: "all",
-        elementType: "labels.text.fill",
-        stylers: [
-          {
-            saturation: 36,
-          },
-          {
-            color: "#000000",
-          },
-          {
-            lightness: 40,
-          },
-          {
-            visibility: "off",
-          },
-        ],
-      },
-      {
-        featureType: "all",
-        elementType: "labels.text.stroke",
-        stylers: [
-          {
-            visibility: "off",
-          },
-          {
-            color: "#000000",
-          },
-          {
-            lightness: 16,
-          },
-        ],
-      },
-      {
-        featureType: "all",
-        elementType: "labels.icon",
-        stylers: [
-          {
-            visibility: "off",
-          },
-        ],
-      },
-      {
-        featureType: "administrative",
-        elementType: "geometry.fill",
-        stylers: [
-          {
-            color: "#000000",
-          },
-          {
-            lightness: 20,
-          },
-        ],
-      },
-      {
-        featureType: "administrative",
-        elementType: "geometry.stroke",
-        stylers: [
-          {
-            color: "#000000",
-          },
-          {
-            lightness: 17,
-          },
-          {
-            weight: 1.2,
-          },
-        ],
-      },
-      {
-        featureType: "landscape",
-        elementType: "geometry",
-        stylers: [
-          {
-            color: "#000000",
-          },
-          {
-            lightness: 20,
-          },
-        ],
-      },
-      {
-        featureType: "landscape",
-        elementType: "geometry.fill",
-        stylers: [
-          {
-            color: "#4d6059",
-          },
-        ],
-      },
-      {
-        featureType: "landscape",
-        elementType: "geometry.stroke",
-        stylers: [
-          {
-            color: "#4d6059",
-          },
-        ],
-      },
-      {
-        featureType: "landscape.natural",
-        elementType: "geometry.fill",
-        stylers: [
-          {
-            color: "#4d6059",
-          },
-        ],
-      },
-      {
-        featureType: "poi",
-        elementType: "geometry",
-        stylers: [
-          {
-            lightness: 21,
-          },
-        ],
-      },
-      {
-        featureType: "poi",
-        elementType: "geometry.fill",
-        stylers: [
-          {
-            color: "#4d6059",
-          },
-        ],
-      },
-      {
-        featureType: "poi",
-        elementType: "geometry.stroke",
-        stylers: [
-          {
-            color: "#4d6059",
-          },
-        ],
-      },
-      {
-        featureType: "road",
-        elementType: "geometry",
-        stylers: [
-          {
-            visibility: "on",
-          },
-          {
-            color: "#7f8d89",
-          },
-        ],
-      },
-      {
-        featureType: "road",
-        elementType: "geometry.fill",
-        stylers: [
-          {
-            color: "#7f8d89",
-          },
-        ],
-      },
-      {
-        featureType: "road.highway",
-        elementType: "geometry.fill",
-        stylers: [
-          {
-            color: "#7f8d89",
-          },
-          {
-            lightness: 17,
-          },
-        ],
-      },
-      {
-        featureType: "road.highway",
-        elementType: "geometry.stroke",
-        stylers: [
-          {
-            color: "#7f8d89",
-          },
-          {
-            lightness: 29,
-          },
-          {
-            weight: 0.2,
-          },
-        ],
-      },
-      {
-        featureType: "road.arterial",
-        elementType: "geometry",
-        stylers: [
-          {
-            color: "#000000",
-          },
-          {
-            lightness: 18,
-          },
-        ],
-      },
-      {
-        featureType: "road.arterial",
-        elementType: "geometry.fill",
-        stylers: [
-          {
-            color: "#7f8d89",
-          },
-        ],
-      },
-      {
-        featureType: "road.arterial",
-        elementType: "geometry.stroke",
-        stylers: [
-          {
-            color: "#7f8d89",
-          },
-        ],
-      },
-      {
-        featureType: "road.local",
-        elementType: "geometry",
-        stylers: [
-          {
-            color: "#000000",
-          },
-          {
-            lightness: 16,
-          },
-        ],
-      },
-      {
-        featureType: "road.local",
-        elementType: "geometry.fill",
-        stylers: [
-          {
-            color: "#7f8d89",
-          },
-        ],
-      },
-      {
-        featureType: "road.local",
-        elementType: "geometry.stroke",
-        stylers: [
-          {
-            color: "#7f8d89",
-          },
-        ],
-      },
-      {
-        featureType: "transit",
-        elementType: "geometry",
-        stylers: [
-          {
-            color: "#000000",
-          },
-          {
-            lightness: 19,
-          },
-        ],
-      },
-      {
-        featureType: "water",
-        elementType: "all",
-        stylers: [
-          {
-            color: "#2b3638",
-          },
-          {
-            visibility: "on",
-          },
-        ],
-      },
-      {
-        featureType: "water",
-        elementType: "geometry",
-        stylers: [
-          {
-            color: "#2b3638",
-          },
-          {
-            lightness: 17,
-          },
-        ],
-      },
-      {
-        featureType: "water",
-        elementType: "geometry.fill",
-        stylers: [
-          {
-            color: "#24282b",
-          },
-        ],
-      },
-      {
-        featureType: "water",
-        elementType: "geometry.stroke",
-        stylers: [
-          {
-            color: "#24282b",
-          },
-        ],
-      },
-      {
-        featureType: "water",
-        elementType: "labels",
-        stylers: [
-          {
-            visibility: "off",
-          },
-        ],
-      },
-      {
-        featureType: "water",
-        elementType: "labels.text",
-        stylers: [
-          {
-            visibility: "off",
-          },
-        ],
-      },
-      {
-        featureType: "water",
-        elementType: "labels.text.fill",
-        stylers: [
-          {
-            visibility: "off",
-          },
-        ],
-      },
-      {
-        featureType: "water",
-        elementType: "labels.text.stroke",
-        stylers: [
-          {
-            visibility: "off",
-          },
-        ],
-      },
-      {
-        featureType: "water",
-        elementType: "labels.icon",
-        stylers: [
-          {
-            visibility: "off",
-          },
-        ],
-      },
-    ];
+  components: { GoogleMap, Marker, InfoWindow },
 
-    return { apikey, center, markerOptions, styles };
+  data() {
+    return {
+      apikey: import.meta.env.VITE_GMAPS_API_KEY,
+      center: { lat: -20.1609, lng: 57.5012 },
+      markers: [],
+      styles: [],
+    };
+  },
+  computed: {
+    ...mapStores(useMapMarkersStore),
+  },
+  methods: {
+    ...mapActions(useMapMarkersStore, ["getMarkers"]),
+    async updateMarkers() {
+      this.markers = await this.getMarkers();
+      console.log(this.markers);
+    },
+    recenterMap(e) {
+      console.log(e.latLng.toJSON());
+      this.center = this.mapMarkersStore.tmp_marker[0].position;
+    },
+  },
+  mounted() {
+    this.updateMarkers();
+  },
+  updated() {
+    this.recenterMap();
   },
 });
 </script>

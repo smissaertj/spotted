@@ -1,5 +1,5 @@
 <template>
-  <app-google-map />
+  <app-google-map @add-marker="newMarker($event)" :key="componentKey" />
   <div class="flex flex-col w-full m-auto">
     <h1 class="text-center text-3xl mt-4">Add a new location</h1>
     <p class="text-center text-accent">
@@ -62,9 +62,9 @@
             v-model="markerData.category"
           >
             <option value="" disabled selected>Category</option>
-            <option value="environment">Environment</option>
-            <option value="publicInfrastructure">Public Infrastructure</option>
-            <option value="safetyConcern">Safety Concern</option>
+            <option value="Environment">Environment</option>
+            <option value="Public Infrastructure">Public Infrastructure</option>
+            <option value="Safety Concern">Safety Concern</option>
           </vee-field>
           <ErrorMessage class="text-red-600" name="category" />
         </div>
@@ -159,25 +159,34 @@ export default {
       markerData: {
         title: "",
         desc: "",
-        lat: "",
-        long: "",
         date: new Date().toISOString(),
         status: "Up To Date",
         category: "",
         isVisible: true,
         isAdminHidden: false,
+        photoUrls: "",
       },
       is_dragover: false,
       uploads: [],
       photoIDs: [],
       photoUrlList: [],
+      componentKey: 0,
     };
   },
   computed: {
-    ...mapStores(useUserStore),
+    ...mapStores(useUserStore, useMapMarkersStore),
   },
   methods: {
-    ...mapActions(useMapMarkersStore, ["addNewMarker"]),
+    ...mapActions(useMapMarkersStore, ["addNewMarker", "getMarkers"]),
+    newMarker(e) {
+      const latLng = e.latLng.toJSON();
+
+      this.markerData.position = latLng;
+      this.mapMarkersStore.tmp_marker = [];
+      this.mapMarkersStore.tmp_marker.push(this.markerData);
+      this.getMarkers();
+      this.componentKey += 1;
+    },
     upload($event) {
       this.is_dragover = false;
       this.submit_show_alert = false;

@@ -5,10 +5,15 @@ import {
   mapMarkerCollection,
   photoCollection,
 } from "@/includes/firebase";
+import axios from "axios";
+
+const authService = axios.create({
+  baseURL: import.meta.env.VITE_API_URL,
+});
 
 export default defineStore("mapMarkers", {
   state: () => ({
-    markers: [],
+    tmp_marker: [],
   }),
   actions: {
     async addNewMarker(markerData) {
@@ -35,6 +40,11 @@ export default defineStore("mapMarkers", {
         batch.delete(doc.ref);
       });
       await batch.commit();
+    },
+    async getMarkers() {
+      const result = await authService.post("/markers");
+      const markerData = result.data.concat(this.tmp_marker);
+      return markerData;
     },
   },
 });
