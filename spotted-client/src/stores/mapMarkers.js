@@ -13,7 +13,9 @@ const authService = axios.create({
 
 export default defineStore("mapMarkers", {
   state: () => ({
+    markers: [],
     tmp_marker: [],
+    center: { lat: -20.1609, lng: 57.5012 },
   }),
   actions: {
     async addNewMarker(markerData) {
@@ -44,7 +46,7 @@ export default defineStore("mapMarkers", {
     async getMarkers() {
       const result = await authService.post("/markers");
       const markerData = result.data.concat(this.tmp_marker);
-      return markerData;
+      this.markers = markerData;
     },
   },
 });

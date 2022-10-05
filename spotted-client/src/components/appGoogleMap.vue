@@ -6,10 +6,7 @@
     zoom-control-position="TOP_RIGHT"
     :styles="styles"
     class="w-full h-1/2"
-    @click="
-      $emit('addMarker', $event);
-      recenterMap($event);
-    "
+    @click="$emit('addMarker', $event)"
   >
     <MarkerCluster>
       <Marker
@@ -61,7 +58,7 @@ export default defineComponent({
   data() {
     return {
       apikey: import.meta.env.VITE_GMAPS_API_KEY,
-      center: { lat: -20.1609, lng: 57.5012 },
+      center: {},
       markers: [],
       styles: [],
     };
@@ -72,19 +69,13 @@ export default defineComponent({
   methods: {
     ...mapActions(useMapMarkersStore, ["getMarkers"]),
     async updateMarkers() {
-      this.markers = await this.getMarkers();
-      console.log(this.markers);
-    },
-    recenterMap(e) {
-      console.log(e.latLng.toJSON());
-      this.center = this.mapMarkersStore.tmp_marker[0].position;
+      await this.getMarkers();
+      this.markers = this.mapMarkersStore.markers;
     },
   },
   mounted() {
     this.updateMarkers();
-  },
-  updated() {
-    this.recenterMap();
+    this.center = this.mapMarkersStore.center;
   },
 });
 </script>

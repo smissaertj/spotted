@@ -180,11 +180,10 @@ export default {
     ...mapActions(useMapMarkersStore, ["addNewMarker", "getMarkers"]),
     newMarker(e) {
       const latLng = e.latLng.toJSON();
-
       this.markerData.position = latLng;
       this.mapMarkersStore.tmp_marker = [];
       this.mapMarkersStore.tmp_marker.push(this.markerData);
-      this.getMarkers();
+      this.mapMarkersStore.center = latLng;
       this.componentKey += 1;
     },
     upload($event) {
@@ -282,6 +281,9 @@ export default {
         }, 2000);
       }
     },
+  },
+  mounted() {
+    this.mapMarkersStore.tmp_marker = [];
   },
 };
 </script>
