@@ -49,7 +49,6 @@ library.add(
   faThumbsUp
 );
 
-import VueGoogleMaps from "@fawmi/vue-google-maps";
 import "./assets/main.css";
 
 let app;
