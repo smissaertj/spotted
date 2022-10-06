@@ -90,6 +90,15 @@ export default defineComponent({
       styles: [
         {
           featureType: "all",
+          elementType: "labels.text",
+          stylers: [
+            {
+              color: "#a1f7ff",
+            },
+          ],
+        },
+        {
+          featureType: "all",
           elementType: "labels.text.fill",
           stylers: [
             {
@@ -102,103 +111,91 @@ export default defineComponent({
           elementType: "labels.text.stroke",
           stylers: [
             {
-              visibility: "on",
+              color: "#000000",
             },
             {
-              color: "#3e606f",
-            },
-            {
-              weight: 2,
-            },
-            {
-              gamma: 0.84,
-            },
-            {
-              lightness: "0",
-            },
-          ],
-        },
-        {
-          featureType: "all",
-          elementType: "labels.icon",
-          stylers: [
-            {
-              visibility: "off",
+              lightness: 13,
             },
           ],
         },
         {
           featureType: "administrative",
-          elementType: "geometry",
+          elementType: "geometry.fill",
           stylers: [
             {
-              weight: 0.6,
+              color: "#000000",
+            },
+          ],
+        },
+        {
+          featureType: "administrative",
+          elementType: "geometry.stroke",
+          stylers: [
+            {
+              color: "#144b53",
             },
             {
-              color: "#1a3541",
+              lightness: 14,
+            },
+            {
+              weight: 1.4,
+            },
+          ],
+        },
+        {
+          featureType: "administrative",
+          elementType: "labels.text",
+          stylers: [
+            {
+              visibility: "simplified",
+            },
+            {
+              color: "#a1f7ff",
+            },
+          ],
+        },
+        {
+          featureType: "administrative.province",
+          elementType: "labels.text",
+          stylers: [
+            {
+              visibility: "simplified",
+            },
+            {
+              color: "#a1f7ff",
+            },
+          ],
+        },
+        {
+          featureType: "administrative.locality",
+          elementType: "labels.text",
+          stylers: [
+            {
+              visibility: "simplified",
+            },
+            {
+              color: "#a1f7ff",
+            },
+          ],
+        },
+        {
+          featureType: "administrative.neighborhood",
+          elementType: "labels.text",
+          stylers: [
+            {
+              visibility: "simplified",
+            },
+            {
+              color: "#a1f7ff",
             },
           ],
         },
         {
           featureType: "landscape",
-          elementType: "geometry",
+          elementType: "all",
           stylers: [
             {
-              color: "#2c5a71",
-            },
-          ],
-        },
-        {
-          featureType: "landscape.man_made",
-          elementType: "geometry",
-          stylers: [
-            {
-              visibility: "on",
-            },
-            {
-              hue: "#00abff",
-            },
-            {
-              lightness: "-32",
-            },
-            {
-              weight: "4",
-            },
-            {
-              gamma: "1.27",
-            },
-          ],
-        },
-        {
-          featureType: "landscape.man_made",
-          elementType: "geometry.stroke",
-          stylers: [
-            {
-              hue: "#00a4ff",
-            },
-            {
-              visibility: "on",
-            },
-            {
-              lightness: "-53",
-            },
-            {
-              gamma: "0.69",
-            },
-            {
-              saturation: "13",
-            },
-          ],
-        },
-        {
-          featureType: "landscape.man_made",
-          elementType: "labels.text.fill",
-          stylers: [
-            {
-              visibility: "off",
-            },
-            {
-              hue: "#ff0000",
+              color: "#08304b",
             },
           ],
         },
@@ -207,46 +204,197 @@ export default defineComponent({
           elementType: "geometry",
           stylers: [
             {
-              color: "#406d80",
+              color: "#0c4152",
+            },
+            {
+              lightness: 5,
+            },
+          ],
+        },
+        {
+          featureType: "poi.attraction",
+          elementType: "labels",
+          stylers: [
+            {
+              invert_lightness: true,
+            },
+          ],
+        },
+        {
+          featureType: "poi.attraction",
+          elementType: "labels.text",
+          stylers: [
+            {
+              visibility: "simplified",
+            },
+            {
+              color: "#a1f7ff",
             },
           ],
         },
         {
           featureType: "poi.park",
-          elementType: "geometry",
+          elementType: "labels",
           stylers: [
             {
-              color: "#2c5a71",
+              visibility: "on",
+            },
+            {
+              invert_lightness: true,
+            },
+          ],
+        },
+        {
+          featureType: "poi.park",
+          elementType: "labels.text",
+          stylers: [
+            {
+              visibility: "simplified",
+            },
+            {
+              color: "#a1f7ff",
             },
           ],
         },
         {
           featureType: "road",
+          elementType: "labels.text",
+          stylers: [
+            {
+              color: "#a1f7ff",
+            },
+          ],
+        },
+        {
+          featureType: "road.highway",
+          elementType: "geometry.fill",
+          stylers: [
+            {
+              color: "#000000",
+            },
+          ],
+        },
+        {
+          featureType: "road.highway",
+          elementType: "geometry.stroke",
+          stylers: [
+            {
+              color: "#0b434f",
+            },
+            {
+              lightness: 25,
+            },
+          ],
+        },
+        {
+          featureType: "road.highway",
+          elementType: "labels",
+          stylers: [
+            {
+              lightness: "0",
+            },
+            {
+              saturation: "0",
+            },
+            {
+              invert_lightness: true,
+            },
+            {
+              visibility: "off",
+            },
+            {
+              hue: "#00e9ff",
+            },
+          ],
+        },
+        {
+          featureType: "road.highway",
+          elementType: "labels.text",
+          stylers: [
+            {
+              visibility: "simplified",
+            },
+            {
+              color: "#a1f7ff",
+            },
+          ],
+        },
+        {
+          featureType: "road.highway.controlled_access",
+          elementType: "labels.text",
+          stylers: [
+            {
+              color: "#a1f7ff",
+            },
+          ],
+        },
+        {
+          featureType: "road.arterial",
+          elementType: "geometry.fill",
+          stylers: [
+            {
+              color: "#000000",
+            },
+          ],
+        },
+        {
+          featureType: "road.arterial",
+          elementType: "geometry.stroke",
+          stylers: [
+            {
+              color: "#0b3d51",
+            },
+            {
+              lightness: 16,
+            },
+          ],
+        },
+        {
+          featureType: "road.arterial",
+          elementType: "labels",
+          stylers: [
+            { visibility: "off" },
+            {
+              invert_lightness: true,
+            },
+          ],
+        },
+        {
+          featureType: "road.local",
           elementType: "geometry",
           stylers: [
             {
-              color: "#29768a",
+              color: "#000000",
+            },
+          ],
+        },
+        {
+          featureType: "road.local",
+          elementType: "labels",
+          stylers: [
+            {
+              visibility: "off",
             },
             {
-              lightness: -37,
+              invert_lightness: true,
             },
           ],
         },
         {
           featureType: "transit",
-          elementType: "geometry",
+          elementType: "all",
           stylers: [
             {
-              color: "#406d80",
+              color: "#146474",
             },
           ],
         },
         {
           featureType: "water",
-          elementType: "geometry",
+          elementType: "all",
           stylers: [
             {
-              color: "#193341",
+              color: "#021019",
             },
           ],
         },
