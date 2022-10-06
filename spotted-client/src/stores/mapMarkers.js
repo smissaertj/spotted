@@ -49,8 +49,7 @@ export default defineStore("mapMarkers", {
       this.markers = markerData;
     },
     async upvoteMarker(muid) {
-      const result = await authService.post("/markers/" + muid + "/upvote");
-      console.log(result.data);
+      await authService.post("/markers/" + muid + "/upvote");
     },
   },
 });
