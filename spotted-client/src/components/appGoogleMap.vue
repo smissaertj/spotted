@@ -19,17 +19,30 @@
         }"
         :key="i"
       >
-        <InfoWindow class="text-accent-content w-fit">
+        <InfoWindow
+          class="text-accent-content w-fit"
+          :options="{ content: 'TEST' }"
+        >
           <div>
             <h1 class="font-bold text-4xl m-2">{{ marker.title }}</h1>
             <div>
-              <p class="text-2xl m-2">
-                <span class="font-bold">Category:</span> {{ marker.category }}
+              <p class="text-2xl m-2 font-bold">
+                {{ marker.category }}
               </p>
               <p class="text-2xl m-2">
                 {{ marker.desc }}
               </p>
             </div>
+            <CustomControl position="CENTER">
+              <button class="btn btn-block my-2" @click="upvote(marker.muid)">
+                <font-awesome-icon
+                  icon="fa-solid fa-thumbs-up"
+                  class="text-accent mr-2"
+                  size="2x"
+                />
+                <span class="font-bold">{{ marker.upvotes }}</span>
+              </button>
+            </CustomControl>
             <div v-if="marker.photoUrls.length > 0" class="flex flex-row">
               <div class="flex flex-wrap -m-1 md:-m-2">
                 <div
@@ -68,17 +81,184 @@ export default defineComponent({
       apikey: import.meta.env.VITE_GMAPS_API_KEY,
       center: {},
       markers: [],
-      styles: [],
+      styles: [
+        {
+          featureType: "all",
+          elementType: "labels.text.fill",
+          stylers: [
+            {
+              color: "#ffffff",
+            },
+          ],
+        },
+        {
+          featureType: "all",
+          elementType: "labels.text.stroke",
+          stylers: [
+            {
+              visibility: "on",
+            },
+            {
+              color: "#3e606f",
+            },
+            {
+              weight: 2,
+            },
+            {
+              gamma: 0.84,
+            },
+            {
+              lightness: "0",
+            },
+          ],
+        },
+        {
+          featureType: "all",
+          elementType: "labels.icon",
+          stylers: [
+            {
+              visibility: "off",
+            },
+          ],
+        },
+        {
+          featureType: "administrative",
+          elementType: "geometry",
+          stylers: [
+            {
+              weight: 0.6,
+            },
+            {
+              color: "#1a3541",
+            },
+          ],
+        },
+        {
+          featureType: "landscape",
+          elementType: "geometry",
+          stylers: [
+            {
+              color: "#2c5a71",
+            },
+          ],
+        },
+        {
+          featureType: "landscape.man_made",
+          elementType: "geometry",
+          stylers: [
+            {
+              visibility: "on",
+            },
+            {
+              hue: "#00abff",
+            },
+            {
+              lightness: "-32",
+            },
+            {
+              weight: "4",
+            },
+            {
+              gamma: "1.27",
+            },
+          ],
+        },
+        {
+          featureType: "landscape.man_made",
+          elementType: "geometry.stroke",
+          stylers: [
+            {
+              hue: "#00a4ff",
+            },
+            {
+              visibility: "on",
+            },
+            {
+              lightness: "-53",
+            },
+            {
+              gamma: "0.69",
+            },
+            {
+              saturation: "13",
+            },
+          ],
+        },
+        {
+          featureType: "landscape.man_made",
+          elementType: "labels.text.fill",
+          stylers: [
+            {
+              visibility: "off",
+            },
+            {
+              hue: "#ff0000",
+            },
+          ],
+        },
+        {
+          featureType: "poi",
+          elementType: "geometry",
+          stylers: [
+            {
+              color: "#406d80",
+            },
+          ],
+        },
+        {
+          featureType: "poi.park",
+          elementType: "geometry",
+          stylers: [
+            {
+              color: "#2c5a71",
+            },
+          ],
+        },
+        {
+          featureType: "road",
+          elementType: "geometry",
+          stylers: [
+            {
+              color: "#29768a",
+            },
+            {
+              lightness: -37,
+            },
+          ],
+        },
+        {
+          featureType: "transit",
+          elementType: "geometry",
+          stylers: [
+            {
+              color: "#406d80",
+            },
+          ],
+        },
+        {
+          featureType: "water",
+          elementType: "geometry",
+          stylers: [
+            {
+              color: "#193341",
+            },
+          ],
+        },
+      ],
     };
   },
   computed: {
     ...mapStores(useMapMarkersStore),
   },
   methods: {
-    ...mapActions(useMapMarkersStore, ["getMarkers"]),
+    ...mapActions(useMapMarkersStore, ["getMarkers", "upvoteMarker"]),
     async updateMarkers() {
       await this.getMarkers();
       this.markers = this.mapMarkersStore.markers;
+    },
+    async upvote(muid) {
+      await this.upvoteMarker(muid);
+      this.updateMarkers();
     },
   },
   mounted() {

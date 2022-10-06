@@ -28,6 +28,7 @@
           <th>Select</th>
           <th>Title</th>
           <th>Description</th>
+          <th>Upvotes</th>
           <th class="w-2/12">Photo</th>
           <th>Actions</th>
         </tr>
@@ -50,6 +51,7 @@
           <td class="min-w-[12rem] max-w-[20rem] whitespace-normal">
             {{ marker.desc }}
           </td>
+          <td>{{ marker.upvotes }}</td>
           <td>
             <img
               v-if="marker.photoUrls.length > 0"
@@ -91,6 +93,7 @@
           <th>Select</th>
           <th>Title</th>
           <th>Description</th>
+          <th>Upvotes</th>
           <th>Photo</th>
           <th>Actions</th>
         </tr>

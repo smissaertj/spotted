@@ -165,6 +165,7 @@ export default {
         isVisible: true,
         isAdminHidden: false,
         photoUrls: "",
+        upvotes: 0,
       },
       is_dragover: false,
       uploads: [],

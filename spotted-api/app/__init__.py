@@ -152,6 +152,20 @@ def get_marker_id(muid):
             return response, 400
 
 
+@app.route('/api/markers/<muid>/upvote', methods=['POST'])
+def upvote_marker(muid):
+    """ Increment the upvote count by 1 """
+    if request.method == 'POST':
+        try:
+            doc_ref = db.collection('mapMarkers').document(muid)
+            doc_ref.update({'upvotes': firestore.Increment(1)})
+            response = {'status': 'success', 'message': 'Document updated!'}
+            return response, 200
+        except exceptions.FirebaseError as e:
+            response = {'status': 'error', 'message': repr(e)}
+            return response, 400
+
+
 @app.route('/api/markers/<muid>/hide/<isAdminHidden>', methods=['POST'])
 @check_admin_token
 def update_marker_visibility(muid, isAdminHidden):
