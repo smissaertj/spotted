@@ -2,7 +2,7 @@
 ## Developers Institute - Final Project
 A VueJS / Flask web application that allows users to geotag locations of interest using the Google Maps API, attach a description and add pictures.
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/038c1a83-f4b5-4b9d-9bb0-20ebc3f1e654/deploy-status)](https://app.netlify.com/sites/cool-as-code-secretly/deploys)  
+[![Netlify Status](https://api.netlify.com/api/v1/badges/dbb4e557-30a7-44c4-be1a-3409cd54d6d1/deploy-status)](https://app.netlify.com/sites/heroic-zuccutto-1ef6ac/deploys)  
 *Demo*: https://spotted.joeri.xyz/
 
 ![Spotted Screenshot](spotted.png)
