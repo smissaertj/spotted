@@ -1,11 +1,5 @@
 <template>
-  <div
-    class="hero h-screen bg-base-100 rounded"
-    style="
-      background-image: url(src/assets/hero_bg.jpg);
-      background-size: cover;
-    "
-  >
+  <div class="hero h-screen bg-base-100 rounded">
     <div class="hero-overlay bg-opacity-65"></div>
     <div class="hero-content sm:flex-col md:flex-row">
       <div class="card w-full glass m-auto" v-if="!userStore.userLoggedIn">
@@ -80,3 +74,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.hero {
+  background-image: url(../assets/hero_bg.jpg);
+  background-size: cover;
+}
+</style>
