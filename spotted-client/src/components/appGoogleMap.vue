@@ -4,70 +4,71 @@
     :center="center"
     :zoom="11"
     zoom-control-position="TOP_RIGHT"
+    :disable-default-ui="true"
     :styles="styles"
     class="w-full h-1/2"
     @click="$emit('addMarker', $event)"
   >
     <MarkerCluster>
-      <Marker
-        v-for="(marker, i) in markers"
-        :options="{
-          position: marker.position,
-          label: marker.label,
-          title: marker.title,
-          clickable: marker.clickable,
-        }"
-        :key="i"
-      >
-        <InfoWindow
-          class="text-accent-content w-fit glass"
-          :options="{ content: 'TEST' }"
+      <template v-for="(marker, i) in markers" :key="i">
+        <Marker
+          v-if="marker.isVisible"
+          :options="{
+            position: marker.position,
+            label: marker.label,
+            title: marker.title,
+            clickable: marker.clickable,
+          }"
         >
-          <div class="mockup-window border bg-base-300">
-            <div class="flex flex-col justify-center px-4 py-4 bg-base-100">
-              <h1 class="font-bold text-accent text-4xl m-2">
-                {{ marker.title }}
-              </h1>
-              <div class="badge badge-lg badge-primary text-2xl m-2 font-bold">
-                {{ marker.category }}
-              </div>
-              <p class="text-2xl text-white">
-                {{ marker.desc }}
-              </p>
-              <CustomControl position="CENTER">
-                <button
-                  class="btn btn-block btn-secondary m-auto mb-2"
-                  @click="upvote(marker.muid)"
+          <InfoWindow class="text-accent-content w-fit glass">
+            <div class="mockup-window bg-base-200">
+              <div class="flex flex-col justify-center px-4 py-4 bg-base-100">
+                <h1 class="font-bold text-accent text-4xl m-2">
+                  {{ marker.title }}
+                </h1>
+                <div
+                  class="badge badge-lg badge-primary text-2xl m-2 font-bold"
                 >
-                  <font-awesome-icon
-                    icon="fa-solid fa-thumbs-up"
-                    class="text-accent mr-2"
-                    size="2x"
-                  />
-                  <span class="font-bold">{{ marker.upvotes }}</span>
-                </button>
-              </CustomControl>
-              <div v-if="marker.photoUrls.length > 0" class="flex flex-row">
-                <div class="flex flex-wrap -m-1 md:-m-2">
-                  <div
-                    class="flex flex-wrap w-1/3"
-                    v-for="(url, i) in marker.photoUrls"
-                    :key="i"
+                  {{ marker.category }}
+                </div>
+                <p class="text-2xl text-white">
+                  {{ marker.desc }}
+                </p>
+                <CustomControl position="CENTER">
+                  <button
+                    class="btn btn-block btn-secondary m-auto mb-2"
+                    @click="upvote(marker.muid)"
                   >
-                    <div class="w-full p-1 md:p-2">
-                      <img
-                        alt="gallery"
-                        class="block object-cover object-center w-full h-full rounded-lg"
-                        :src="url"
-                      />
+                    <font-awesome-icon
+                      icon="fa-solid fa-thumbs-up"
+                      class="text-accent mr-2"
+                      size="2x"
+                    />
+                    <span class="font-bold">{{ marker.upvotes }}</span>
+                  </button>
+                </CustomControl>
+                <div v-if="marker.photoUrls.length > 0" class="flex flex-row">
+                  <div class="flex flex-wrap -m-1 md:-m-2">
+                    <div
+                      class="flex flex-wrap w-1/3"
+                      v-for="(url, i) in marker.photoUrls"
+                      :key="i"
+                    >
+                      <div class="w-full p-1 md:p-2">
+                        <img
+                          alt="gallery"
+                          class="block object-cover object-center w-full h-full rounded-lg"
+                          :src="url"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </InfoWindow>
-      </Marker>
+          </InfoWindow>
+        </Marker>
+      </template>
     </MarkerCluster>
   </GoogleMap>
 </template>
@@ -254,6 +255,9 @@ export default defineComponent({
   },
   computed: {
     ...mapStores(useMapMarkersStore),
+    markers: function () {
+      return this.mapMarkersStore.markers.filter((i) => i.isVisible === true);
+    },
   },
   methods: {
     ...mapActions(useMapMarkersStore, ["getMarkers", "upvoteMarker"]),
