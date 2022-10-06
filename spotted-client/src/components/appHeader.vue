@@ -10,7 +10,7 @@
         /></router-link>
       </div>
       <div class="navbar-center hidden lg:flex">
-        <p class="font-bold text-accent">Share Locations of Interest</p>
+        <p class="font-bold text-accent">Tag Locations of Interest</p>
       </div>
       <div class="navbar-end">
         <ul class="menu menu-horizontal p-0 m-0">
