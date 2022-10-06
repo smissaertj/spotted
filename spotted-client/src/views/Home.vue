@@ -54,7 +54,7 @@
             icon="fa-solid fa-magnifying-glass-location"
             size="3x"
           />
-          <p class="my-2 font-bold">Explore and participate in discussions.</p>
+          <p class="my-2 font-bold">Explore and upvote submissions.</p>
           <div class="card-actions justify-end">
             <router-link class="btn btn-primary" :to="{ name: 'explore' }"
               >Explore
