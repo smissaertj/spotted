@@ -31,13 +31,21 @@
               </p>
             </div>
             <div v-if="marker.photoUrls.length > 0" class="flex flex-row">
-              <img
-                v-for="(url, i) in marker.photoUrls"
-                :key="i"
-                :src="url"
-                alt="Marker Photo"
-                class="max-w-15 max-h-15 m-auto"
-              />
+              <div class="flex flex-wrap -m-1 md:-m-2">
+                <div
+                  class="flex flex-wrap w-1/3"
+                  v-for="(url, i) in marker.photoUrls"
+                  :key="i"
+                >
+                  <div class="w-full p-1 md:p-2">
+                    <img
+                      alt="gallery"
+                      class="block object-cover object-center w-full h-full rounded-lg"
+                      :src="url"
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </InfoWindow>
