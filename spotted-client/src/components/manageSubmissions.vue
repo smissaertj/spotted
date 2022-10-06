@@ -24,13 +24,27 @@
     >
       <!-- head -->
       <thead>
-        <tr>
-          <th>Select</th>
-          <th>Title</th>
-          <th>Description</th>
-          <th>Upvotes</th>
-          <th class="w-2/12">Photo</th>
-          <th>Actions</th>
+        <tr class="bg-accent">
+          <th class="w-2/12 bg-accent-content/25 text-secondary-content">
+            Select
+          </th>
+          <th class="w-2/12 bg-accent-content/25 text-secondary-content">
+            Title
+          </th>
+          <th
+            class="max-w-screen-md bg-accent-content/25 text-secondary-content"
+          >
+            Description
+          </th>
+          <th class="w-2/12 bg-accent-content/25 text-secondary-content">
+            Upvotes
+          </th>
+          <th class="w-2/12 bg-accent-content/25 text-secondary-content">
+            Photo
+          </th>
+          <th class="w-2/12 bg-accent-content/25 text-secondary-content">
+            Actions
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -89,13 +103,15 @@
         </tr>
       </tbody>
       <thead>
-        <tr>
-          <th>Select</th>
-          <th>Title</th>
-          <th>Description</th>
-          <th>Upvotes</th>
-          <th>Photo</th>
-          <th>Actions</th>
+        <tr class="bg-accent">
+          <th class="bg-accent-content/25 text-secondary-content">Select</th>
+          <th class="bg-accent-content/25 text-secondary-content">Title</th>
+          <th class="bg-accent-content/25 text-secondary-content">
+            Description
+          </th>
+          <th class="bg-accent-content/25 text-secondary-content">Upvotes</th>
+          <th class="bg-accent-content/25 text-secondary-content">Photo</th>
+          <th class="bg-accent-content/25 text-secondary-content">Actions</th>
         </tr>
       </thead>
     </table>

@@ -70,7 +70,7 @@ const routes = [
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes,
-  linkExactActiveClass: "text-yellow-500",
+  linkExactActiveClass: "text-accent",
 });
 
 router.beforeEach((to, from, next) => {

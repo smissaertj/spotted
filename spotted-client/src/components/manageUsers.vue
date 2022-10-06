@@ -26,13 +26,19 @@
     <table class="table min-w-full m-auto text-center">
       <!-- head -->
       <thead>
-        <tr>
-          <th class="w-1/12">
+        <tr class="bg-accent">
+          <th class="w-1/12 bg-accent-content/25 text-secondary-content">
             <label> Select </label>
           </th>
-          <th class="w-1/12">User</th>
-          <th class="w-1/12">Status</th>
-          <th class="w-1/12">Actions</th>
+          <th class="w-1/12 bg-accent-content/25 text-secondary-content">
+            User
+          </th>
+          <th class="w-1/12 bg-accent-content/25 text-secondary-content">
+            Status
+          </th>
+          <th class="w-1/12 bg-accent-content/25 text-secondary-content">
+            Actions
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -81,11 +87,11 @@
       </tbody>
       <!-- foot -->
       <tfoot>
-        <tr>
-          <th>Select</th>
-          <th>User</th>
-          <th>Status</th>
-          <th>Actions</th>
+        <tr class="bg-accent">
+          <th class="bg-accent-content/25 text-secondary-content">Select</th>
+          <th class="bg-accent-content/25 text-secondary-content">User</th>
+          <th class="bg-accent-content/25 text-secondary-content">Status</th>
+          <th class="bg-accent-content/25 text-secondary-content">Actions</th>
         </tr>
       </tfoot>
     </table>
