@@ -31,7 +31,7 @@
               <div class="badge badge-lg badge-primary text-2xl m-2 font-bold">
                 {{ marker.category }}
               </div>
-              <p class="text-2xl text-accent-content">
+              <p class="text-2xl text-white">
                 {{ marker.desc }}
               </p>
               <CustomControl position="CENTER">
@@ -66,7 +66,6 @@
               </div>
             </div>
           </div>
-          <div></div>
         </InfoWindow>
       </Marker>
     </MarkerCluster>
