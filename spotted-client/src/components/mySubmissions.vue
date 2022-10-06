@@ -14,7 +14,7 @@
       size="3x"
     />
   </div>
-  <div class="overflow-y-auto break-all">
+  <div class="overflow-y-auto break-all min-w-full">
     <div class="m-auto" v-if="this.markers.length === 0 && !this.is_loading">
       You have no submissions.
     </div>

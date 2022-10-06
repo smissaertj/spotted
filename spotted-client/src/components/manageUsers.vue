@@ -22,17 +22,17 @@
       <span>{{ users_alert_msg }}</span>
     </div>
   </div>
-  <div class="overflow-x-auto w-full" v-else>
-    <table class="table w-100 m-auto">
+  <div class="overflow-y-auto w-full" v-else>
+    <table class="table min-w-full m-auto text-center">
       <!-- head -->
       <thead>
         <tr>
-          <th>
+          <th class="w-1/12">
             <label> Select </label>
           </th>
-          <th>User</th>
-          <th>Status</th>
-          <th>Actions</th>
+          <th class="w-1/12">User</th>
+          <th class="w-1/12">Status</th>
+          <th class="w-1/12">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -44,7 +44,7 @@
             </label>
           </th>
           <td>
-            <div class="flex items-center space-x-3">
+            <div class="flex flex-row justify-center">
               <div>
                 <div class="font-bold">{{ user.displayName }}</div>
                 <div class="text-sm opacity-50">{{ user.email }}</div>

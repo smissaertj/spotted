@@ -1,7 +1,7 @@
 <template>
-  <div class="flex flex-col w-full px-64">
+  <div class="flex flex-col w-full max-h-1/2">
     <div
-      class="card flex flex-shrink-0 shadow-2xl bg-base-100 glass rounded-box place-items-center"
+      class="card flex shadow-2xl bg-base-200 glass rounded-box place-items-center"
     >
       <div class="card-body">
         <vee-form

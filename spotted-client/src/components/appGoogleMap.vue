@@ -21,7 +21,7 @@
           }"
         >
           <InfoWindow class="text-accent-content w-fit glass">
-            <div class="mockup-window bg-base-200">
+            <div class="mockup-window bg-base-200/25">
               <div class="flex flex-col justify-center px-4 py-4 bg-base-100">
                 <h1 class="font-bold text-accent text-4xl m-2">
                   {{ marker.title }}
