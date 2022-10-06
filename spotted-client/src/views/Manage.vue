@@ -31,13 +31,6 @@
             Submissions</router-link
           >
         </li>
-
-        <li>
-          <router-link :to="{ name: 'myComments' }" exact-active-class="active"
-            ><font-awesome-icon icon="fa-solid fa-comments" />My
-            Comments</router-link
-          >
-        </li>
         <li>
           <router-link :to="{ name: 'profile' }" exact-active-class="active"
             ><font-awesome-icon icon="fa-solid fa-user" />Profile</router-link
@@ -57,9 +50,6 @@
             ><font-awesome-icon icon="fa-solid fa-wrench" />Manage
             Submissions</router-link
           >
-        </li>
-        <li v-if="userStore.userIsAdmin">
-          <a><font-awesome-icon icon="fa-solid fa-wrench" />Manage Comments</a>
         </li>
       </ul>
     </div>

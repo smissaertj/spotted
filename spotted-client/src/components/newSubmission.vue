@@ -71,7 +71,7 @@
         <div class="p-2">
           <!-- Upload Dropbox -->
           <div
-            class="w-full p-2 rounded text-center cursor-pointer border border-dashed border-accent text-gray-400 transition duration-500 hover:text-white hover:bg-secondary hover:border-secondary hover:text-accent-content hover:border-solid"
+            class="w-full p-2 rounded text-center cursor-pointer border border-dashed border-accent text-gray-400 transition duration-500 hover:text-white hover:bg-secondary-focus hover:border-secondary hover:text-secondary-content hover:border-solid"
             :class="{
               'bg-secondary border-solid': is_dragover,
             }"
