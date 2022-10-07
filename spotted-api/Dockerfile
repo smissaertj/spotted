@@ -1,5 +1,5 @@
 # Base python package
-FROM python:3.10.6-slim-buster
+FROM python:3.10.7-slim-buster
 
 # Working directory
 WORKDIR /app
