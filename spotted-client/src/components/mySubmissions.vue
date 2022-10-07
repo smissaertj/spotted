@@ -70,7 +70,27 @@
           <td class="min-w-[12rem] max-w-[20rem] whitespace-normal">
             {{ marker.desc }}
           </td>
-          <td>{{ marker.authority }}</td>
+          <td>
+            {{ marker.authority }}
+            <div class="text-sm opacity-50">
+              <select
+                type="select"
+                class="input w-full text-sm"
+                :class="{
+                  'text-success': marker.status === 'Resolved',
+                  'text-warning': marker.status === 'Reported',
+                }"
+                name="statusSelect"
+                @change.prevent="updateMarkerStatus(marker.muid, $event)"
+              >
+                <option value="{{ marker.status }}" disabled selected>
+                  {{ marker.status }}
+                </option>
+                <option value="Reported" class="text-warning">Reported</option>
+                <option value="Resolved" class="text-success">Resolved</option>
+              </select>
+            </div>
+          </td>
           <td>{{ marker.downvotes }}</td>
           <td>
             <img
@@ -179,7 +199,20 @@ export default {
     ...mapActions(useMapMarkersStore, {
       updateVisibility: "updateVisibility",
       deleteMarker: "deleteMarker",
+      updateStatus: "updateStatus",
     }),
+    async updateMarkerStatus(muid, event) {
+      try {
+        const newStatus = event.target.value;
+        await this.updateStatus(muid, newStatus);
+        setTimeout(() => {
+          this.toast_show = false;
+          this.getMarkers();
+        }, 1000);
+      } catch (error) {
+        console.log(error);
+      }
+    },
     async getMarkers() {
       try {
         if (auth.currentUser) {
@@ -211,7 +244,7 @@ export default {
       setTimeout(() => {
         this.toast_show = false;
         this.getMarkers();
-      }, 2000);
+      }, 1000);
     },
     async deleteEntry(muid) {
       try {

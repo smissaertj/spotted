@@ -72,7 +72,15 @@
           <td class="min-w-[12rem] max-w-[20rem] whitespace-normal">
             {{ marker.desc }}
           </td>
-          <td>{{ marker.authority }}</td>
+          <td>
+            {{ marker.authority }}
+            <div
+              class="text-sm opacity-50 text-warning"
+              :class="{ 'text-success': marker.status === 'Resolved' }"
+            >
+              {{ marker.status }}
+            </div>
+          </td>
           <td>{{ marker.downvotes }}</td>
           <td>
             <img

@@ -63,11 +63,19 @@
           >
             <option value="" disabled selected>Report To:</option>
             <option value="Beach Authority">Beach Authority</option>
-            <option value="Central Water Authority">Central Water Authority</option>
-            <option value="Central Electricity Board">Central Electricity Board</option>
+            <option value="Central Water Authority">
+              Central Water Authority
+            </option>
+            <option value="Central Electricity Board">
+              Central Electricity Board
+            </option>
             <option value="MSAW">MSAW</option>
-            <option value="Police de l’Environnement">Police de l’Environnement</option>
-            <option value="Road Development Authority">Road Development Authority</option>
+            <option value="Police de l’Environnement">
+              Police de l’Environnement
+            </option>
+            <option value="Road Development Authority">
+              Road Development Authority
+            </option>
           </vee-field>
           <ErrorMessage class="text-red-600" name="category" />
         </div>
@@ -163,7 +171,7 @@ export default {
         title: "",
         desc: "",
         date: new Date().toISOString(),
-        status: "Up To Date",
+        status: "Reported",
         authority: "",
         isVisible: true,
         isAdminHidden: false,

@@ -51,5 +51,9 @@ export default defineStore("mapMarkers", {
     async downvoteMarker(muid) {
       await authService.post("/markers/" + muid + "/downvote");
     },
+    async updateStatus(muid, newStatus) {
+      const docRef = await mapMarkerCollection.doc(muid);
+      docRef.update({ status: newStatus });
+    },
   },
 });
