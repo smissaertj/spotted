@@ -57,7 +57,14 @@
               </div>
             </div>
           </td>
-          <td>{{ user.isDisabled ? "Disabled" : "Active" }}</td>
+          <td
+            :class="{
+              'text-success': !user.isDisabled,
+              'text-error': user.isDisabled,
+            }"
+          >
+            {{ user.isDisabled ? "Disabled" : "Active" }}
+          </td>
           <td>
             <button
               class="btn btn-ghost btn-xs hover:btn-error"
