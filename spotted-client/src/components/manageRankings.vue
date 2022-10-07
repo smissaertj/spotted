@@ -1,11 +1,4 @@
 <template>
-  <div class="m-auto" v-if="this.is_loading">
-    <font-awesome-icon
-      icon="fa-solid fa-spinner"
-      class="fa-spin text-accent"
-      size="3x"
-    />
-  </div>
   <div class="overflow-y-auto break-all min-w-full">
     <div
       class="m-auto"
