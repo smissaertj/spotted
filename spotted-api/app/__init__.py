@@ -69,7 +69,9 @@ def list_users():
     # Iterate through all users. This will still retrieve users in batches,
     # buffering no more than 1000 users in memory at a time.
     for user in auth.list_users().iterate_all():
-        user = {'uid': user.uid, 'email': user.email, 'displayName': user.display_name, 'isDisabled': user.disabled}
+        user_ref = db.collection('users').document(user.uid)
+        user_data = user_ref.get().to_dict()
+        user = {'uid': user.uid, 'email': user.email, 'displayName': user.display_name, 'isDisabled': user.disabled, 'isAdmin': user_data.get('isAdmin')}
         users_list.append(user)
 
     return users_list

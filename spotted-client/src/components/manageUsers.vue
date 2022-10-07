@@ -64,6 +64,9 @@
             }"
           >
             {{ user.isDisabled ? "Disabled" : "Active" }}
+            <div class="text-sm opacity-50 text-primary">
+              {{ user.isAdmin ? "Administrator" : "" }}
+            </div>
           </td>
           <td>
             <button
