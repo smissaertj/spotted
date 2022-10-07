@@ -36,8 +36,15 @@
           >
             Description
           </th>
+          <th class="bg-accent-content/25 text-secondary-content">
+            Reported to
+          </th>
           <th class="w-2/12 bg-accent-content/25 text-secondary-content">
-            Upvotes
+            <font-awesome-icon
+              icon="fa-solid fa-thumbs-down"
+              class="text-accent-content mr-2"
+              size="2x"
+            />
           </th>
           <th class="w-2/12 bg-accent-content/25 text-secondary-content">
             Photo
@@ -63,7 +70,8 @@
           <td class="min-w-[12rem] max-w-[20rem] whitespace-normal">
             {{ marker.desc }}
           </td>
-          <td>{{ marker.upvotes }}</td>
+          <td>{{ marker.authority }}</td>
+          <td>{{ marker.downvotes }}</td>
           <td>
             <img
               v-if="marker.photoUrls.length > 0"
@@ -125,7 +133,16 @@
           <th class="bg-accent-content/25 text-secondary-content">
             Description
           </th>
-          <th class="bg-accent-content/25 text-secondary-content">Upvotes</th>
+          <th class="bg-accent-content/25 text-secondary-content">
+            Reported to
+          </th>
+          <th class="bg-accent-content/25 text-secondary-content">
+            <font-awesome-icon
+              icon="fa-solid fa-thumbs-down"
+              class="text-accent-content mr-2"
+              size="2x"
+            />
+          </th>
           <th class="bg-accent-content/25 text-secondary-content">Photo</th>
           <th class="bg-accent-content/25 text-secondary-content">Actions</th>
         </tr>

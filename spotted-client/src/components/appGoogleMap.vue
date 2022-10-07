@@ -29,7 +29,7 @@
                 <div
                   class="badge badge-lg badge-primary text-2xl m-2 font-bold"
                 >
-                  {{ marker.category }}
+                  {{ marker.authority }}
                 </div>
                 <p class="text-2xl text-white">
                   {{ marker.desc }}
@@ -37,14 +37,16 @@
                 <CustomControl position="CENTER">
                   <button
                     class="btn btn-block btn-secondary m-auto mb-2"
-                    @click="upvote(marker.muid)"
+                    @click="downvote(marker.muid)"
                   >
                     <font-awesome-icon
-                      icon="fa-solid fa-thumbs-up"
+                      icon="fa-solid fa-thumbs-down"
                       class="text-accent mr-2"
                       size="2x"
                     />
-                    <span class="font-bold">{{ marker.upvotes }}</span>
+                    <span class="font-bold text-2xl text-white">{{
+                      marker.downvotes
+                    }}</span>
                   </button>
                 </CustomControl>
                 <div v-if="marker.photoUrls.length > 0" class="flex flex-row">
@@ -408,13 +410,13 @@ export default defineComponent({
     },
   },
   methods: {
-    ...mapActions(useMapMarkersStore, ["getMarkers", "upvoteMarker"]),
+    ...mapActions(useMapMarkersStore, ["getMarkers", "downvoteMarker"]),
     async updateMarkers() {
       await this.getMarkers();
       this.markers = this.mapMarkersStore.markers;
     },
-    async upvote(muid) {
-      await this.upvoteMarker(muid);
+    async downvote(muid) {
+      await this.downvoteMarker(muid);
       this.updateMarkers();
     },
   },

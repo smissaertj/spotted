@@ -59,12 +59,15 @@
             class="input input-bordered w-full"
             name="category"
             required
-            v-model="markerData.category"
+            v-model="markerData.authority"
           >
-            <option value="" disabled selected>Category</option>
-            <option value="Environment">Environment</option>
-            <option value="Public Infrastructure">Public Infrastructure</option>
-            <option value="Safety Concern">Safety Concern</option>
+            <option value="" disabled selected>Report To:</option>
+            <option value="Beach Authority">Beach Authority</option>
+            <option value="Central Water Authority">Central Water Authority</option>
+            <option value="Central Electricity Board">Central Electricity Board</option>
+            <option value="MSAW">MSAW</option>
+            <option value="Police de l’Environnement">Police de l’Environnement</option>
+            <option value="Road Development Authority">Road Development Authority</option>
           </vee-field>
           <ErrorMessage class="text-red-600" name="category" />
         </div>
@@ -161,7 +164,7 @@ export default {
         desc: "",
         date: new Date().toISOString(),
         status: "Up To Date",
-        category: "",
+        authority: "",
         isVisible: true,
         isAdminHidden: false,
         photoUrls: "",

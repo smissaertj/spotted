@@ -48,8 +48,8 @@ export default defineStore("mapMarkers", {
       const markerData = result.data.concat(this.tmp_marker);
       this.markers = markerData;
     },
-    async upvoteMarker(muid) {
-      await authService.post("/markers/" + muid + "/upvote");
+    async downvoteMarker(muid) {
+      await authService.post("/markers/" + muid + "/downvote");
     },
   },
 });
