@@ -24,6 +24,7 @@ import {
   faEye,
   faEyeSlash,
   faThumbsDown,
+  faRankingStar,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { faSlideshare, faGithub } from "@fortawesome/free-brands-svg-icons";
@@ -46,7 +47,8 @@ library.add(
   faHeart,
   faEye,
   faEyeSlash,
-  faThumbsDown
+  faThumbsDown,
+  faRankingStar
 );
 
 import "./assets/main.css";

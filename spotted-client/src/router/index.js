@@ -64,6 +64,14 @@ const routes = [
       requiresAdmin: true,
     },
   },
+  {
+    name: "rankings",
+    path: "/rankings",
+    component: Manage,
+    meta: {
+      requiresAuth: true,
+    },
+  },
   { name: "NotFound", path: "/:pathMatch(.*)*", component: NotFound },
 ];
 

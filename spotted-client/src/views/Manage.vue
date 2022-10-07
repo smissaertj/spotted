@@ -4,6 +4,7 @@
     <div class="drawer-content flex flex-col items-center justify-center">
       <new-submission v-if="this.$route.name == 'newSubmission'" />
       <my-submissions v-else-if="this.$route.name == 'mySubmissions'" />
+      <manage-rankings v-else-if="this.$route.name == 'rankings'" />
       <manage-submissions v-else-if="this.$route.name == 'manageSubmissions'" />
       <manage-profile v-else-if="this.$route.name == 'profile'" />
       <manage-users v-else-if="this.$route.name == 'manageUsers'" />
@@ -29,6 +30,12 @@
             exact-active-class="active"
             ><font-awesome-icon icon="fa-solid fa-rectangle-list" />My
             Submissions</router-link
+          >
+        </li>
+        <li>
+          <router-link :to="{ name: 'rankings' }" exact-active-class="active"
+            ><font-awesome-icon icon="fa-solid fa-ranking-star" />
+            Rankings</router-link
           >
         </li>
         <li>
@@ -64,6 +71,7 @@ import mySubmissions from "@/components/mySubmissions.vue";
 import manageSubmissions from "@/components/manageSubmissions.vue";
 import manageProfile from "@/components/manageProfile.vue";
 import manageUsers from "@/components/manageUsers.vue";
+import manageRankings from "@/components/manageRankings.vue";
 
 export default {
   name: "appManage",
@@ -73,6 +81,7 @@ export default {
     manageSubmissions,
     manageProfile,
     manageUsers,
+    manageRankings,
   },
   computed: {
     ...mapStores(useUserStore),
