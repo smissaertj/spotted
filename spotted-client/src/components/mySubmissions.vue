@@ -208,7 +208,7 @@ export default {
         setTimeout(() => {
           this.toast_show = false;
           this.getMarkers();
-        }, 1000);
+        }, 2000);
       } catch (error) {
         console.log(error);
       }
